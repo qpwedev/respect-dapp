@@ -1,9 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Zilla_Slab } from "next/font/google";
 import Provider from "./_trpc/Provider";
+import WagmiConfigWrapper from "./_components/web3modalbootstrap";
 
-const inter = Inter({ subsets: ["latin"] });
+const zilla_slab = Zilla_Slab({ weight: "300", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,8 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Provider>{children}</Provider>
+      <body className={zilla_slab.className + " " + "bg-black text-white"}>
+        <Provider>
+          <WagmiConfigWrapper>{children}</WagmiConfigWrapper>
+        </Provider>
       </body>
     </html>
   );
