@@ -6,7 +6,7 @@ import Image from "next/image";
 
 type TabsType = "graph" | "myself";
 
-const Navigation = () => {
+const Navigation = ({ className = "" }: { className?: string }) => {
   const [activeTab, setActiveTab] = useState<TabsType>("graph");
 
   // Function to handle tab changes
@@ -18,7 +18,7 @@ const Navigation = () => {
   const isTabActive = (tab: TabsType) => activeTab === tab;
 
   return (
-    <div className="flex gap-5">
+    <div className={`flex gap-5 ${className}`}>
       <div
         className={`flex items-center gap-2 cursor-pointer ${
           isTabActive("graph") ? "font-zillah" : ""

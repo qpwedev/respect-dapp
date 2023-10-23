@@ -24,17 +24,19 @@ const WidgetAccount = ({
   return (
     <div className={`flex flex-col gap-5 ${className}`}>
       <WidgetContainer className="bg-spink !border-spink text-black min-h-[200px] !justify-around p-5 flex-1">
-        <WidgetTitle className="!font-bold !text-[2.5rem] self-start flex justify-center gap-3">
-          <div>{handle}</div>
-          <ShareButton
-            title="Share your account"
-            url={`https://wagmi.app/${handle}`}
-            text="Share your account link"
-          />
-        </WidgetTitle>
+        <div className="flex flex-col self-start gap-3">
+          <WidgetTitle className="!font-bold !text-[2.5rem] self-start flex justify-center gap-3">
+            <div>{handle}</div>
+            <ShareButton
+              title="Share your account"
+              url={`https://wagmi.app/${handle}`}
+              text="Share your account link"
+            />
+          </WidgetTitle>
 
-        <div className="font-light self-start">
-          {isMounted ? address : "Loading..."}
+          <div className="font-light self-start">
+            {isMounted ? address : "Loading..."}
+          </div>
         </div>
 
         <WidgetLinks />

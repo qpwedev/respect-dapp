@@ -8,15 +8,15 @@ import Footer from "./_components/Footer";
 
 export default function Home() {
   return (
-    <main className="p-5 h-screen flex flex-col">
+    <main className="p-5 lg:h-screen flex flex-col">
       <Header />
-      <div className="grid grid-cols-2 grid-rows-2 gap-5 mt-[36px] flex-1">
-        <WidgetPersonalities className="col-start-1 col-end-2 row-start-2 row-end-3" />
+      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-2 gap-5 mt-[36px] lg:flex-1">
         <WidgetAccount
           handle={generateName()}
-          className="col-start-1 col-end-2 row-start-1 row-end-2"
+          className="lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2"
         />
-        <WidgetJar className="col-start-2 col-end-3 row-start-1 row-end-3" />
+        <WidgetJar className="lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-3" />
+        <WidgetPersonalities className="lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3" />
       </div>
 
       <Footer />

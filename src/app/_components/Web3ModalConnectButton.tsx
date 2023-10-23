@@ -3,13 +3,17 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Arrow from "../_assets/arrow.svg";
 import Image from "next/image";
 
-export default function Web3ModalConnectButton() {
+export default function Web3ModalConnectButton({
+  className = "",
+}: {
+  className?: string;
+}) {
   const { open } = useWeb3Modal();
 
   return (
     <>
       <button
-        className="border-[1px] border-white-400 rounded-[13px] px-2 py-1 flex items-center justify-between gap-2"
+        className={`border-[1px] border-white-400 rounded-[13px] px-2 py-1 flex items-center justify-between gap-2 ${className}`}
         onClick={() => open()}
       >
         <div>Connect</div>
