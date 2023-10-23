@@ -9,7 +9,7 @@ const WidgetTitle: React.FC<WidgetTitleProps> = ({
   children,
   className = "",
 }) => {
-  const defaultClasses = `text-2xl font-medium ${className}`;
+  const defaultClasses = `text-2xl font-light ${className}`;
 
   return <div className={defaultClasses}>{children}</div>;
 };

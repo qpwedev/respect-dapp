@@ -4,7 +4,10 @@ import { Zilla_Slab } from "next/font/google";
 import Provider from "./_trpc/Provider";
 import WagmiConfigWrapper from "./_components/web3modalbootstrap";
 
-const zilla_slab = Zilla_Slab({ weight: "300", subsets: ["latin"] });
+const zilla_slab = Zilla_Slab({
+  weight: ["500", "700", "300"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
