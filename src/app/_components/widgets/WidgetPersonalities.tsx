@@ -6,7 +6,7 @@ import Image from "next/image";
 import PersonalityEmpty from "../../_assets/personality-empty.png";
 import Arrow from "../../_assets/arrow.svg";
 
-const WidgetPersonalities = () => {
+const WidgetPersonalities = ({ className = "" }: { className?: string }) => {
   const [showSecondContent, setShowSecondContent] = useState(false);
   const containerRef = useRef(null);
   const [minHeight, setMinHeight] = useState("auto");
@@ -25,10 +25,10 @@ const WidgetPersonalities = () => {
     <div
       onClick={toggleContent}
       style={{ minHeight, height: minHeight }}
-      className="transition-all duration-700 ease-in-out"
+      className={`transition-all duration-700 ease-in-out ${className}`}
       ref={containerRef}
     >
-      <WidgetContainer className="overflow-hidden relative p-4 gap-2 h-full justify-between">
+      <WidgetContainer className="overflow-hidden relative p-4 gap-2 h-full">
         <div
           className={`transition-opacity duration-300 ${
             showSecondContent ? "opacity-0" : "opacity-100"

@@ -5,29 +5,45 @@ import WidgetContainer from "./WidgetContainer";
 import WidgetTitle from "./WidgetTitle";
 import { useAccount } from "wagmi";
 import WidgetLinks from "./WidgetLinks";
+import ShareButton from "../ShareButton";
 
-const WidgetAccount = () => {
+const WidgetAccount = ({
+  handle,
+  className = "",
+}: {
+  handle: string;
+  className?: string;
+}) => {
   const [isMounted, setIsMounted] = useState(false); // State to track if the component has mounted
   const { address } = useAccount();
 
-  // useEffect with an empty dependency array is similar to componentDidMount,
-  // it runs after the first render and after the main hydration process.
   useEffect(() => {
-    setIsMounted(true); // set isMounted to true when the component has mounted
+    setIsMounted(true);
   }, []);
 
-  // We're rendering the address only after the component has mounted, i.e., on the client side.
-  // Before mounting, a loading message or null can be returned.
   return (
-    <WidgetContainer className="bg-spink !border-spink text-black">
-      <WidgetTitle className="!font-bold !text-[2.5rem]">
-        Pes Storojivoi
-      </WidgetTitle>
+    <div className={`flex flex-col gap-5 ${className}`}>
+      <WidgetContainer className="bg-spink !border-spink text-black min-h-[200px] !justify-around p-5 flex-1">
+        <WidgetTitle className="!font-bold !text-[2.5rem] self-start flex justify-center gap-3">
+          <div>{handle}</div>
+          <ShareButton
+            title="Share your account"
+            url={`https://wagmi.app/${handle}`}
+            text="Share your account link"
+          />
+        </WidgetTitle>
 
-      <div className="font-light">{isMounted ? address : "Loading..."}</div>
+        <div className="font-light self-start">
+          {isMounted ? address : "Loading..."}
+        </div>
 
-      <WidgetLinks />
-    </WidgetContainer>
+        <WidgetLinks />
+      </WidgetContainer>
+
+      <WidgetContainer className="!border-spink font-light text-[24px] p-3 cursor-pointer hover:bg-spink hover:text-black">
+        GIVE RESPECT
+      </WidgetContainer>
+    </div>
   );
 };
 

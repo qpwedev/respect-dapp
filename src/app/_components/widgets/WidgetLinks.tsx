@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 // Custom hook to detect clicks outside of the provided ref
@@ -18,21 +19,44 @@ function useOutsideClickDetector(ref, onOutsideClick) {
   }, [ref, onOutsideClick]);
 }
 
-const LinkButton = ({ network }) => {
+const LinkButton = ({ linkData }) => {
+  const { network, defaultText, img, baseUrl, handle: linkHandle } = linkData;
   const [isEditing, setIsEditing] = useState(false);
-  const [handle, setHandle] = useState(network);
-  const wrapperRef = useRef(null); // Ref for the wrapper div
+  const [handle, setHandle] = useState(linkHandle || "");
+  const wrapperRef = useRef(null);
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    // If isEditing is true, focus on the input
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
 
   useOutsideClickDetector(wrapperRef, () => {
-    // Revert to button view if editing and clicked outside
     if (isEditing) {
       setIsEditing(false);
-      setHandle(network); // reset the handle if clicked outside
+      // Keep the input empty if the user didn't enter a handle
+      if (!handle.trim()) {
+        setHandle(""); // Maintain an empty state
+      }
     }
   });
 
-  const handleButtonClick = () => {
+  const handleEditSignClick = (e) => {
+    e.stopPropagation();
     setIsEditing(true);
+  };
+
+  const handleButtonClick = () => {
+    if (handle) {
+      // If a handle is set, open the URL in a new tab
+      window.open(`${baseUrl}${handle}`, "_blank");
+    } else {
+      // If no handle is set, switch to editing mode
+      setIsEditing(true);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -41,13 +65,18 @@ const LinkButton = ({ network }) => {
 
   const handleInputKeyDown = (e) => {
     if (e.key === "Enter") {
-      setIsEditing(false);
-      sendHandleToServer(handle); // mock sending the handle to the server
+      if (!handle.trim()) {
+        setHandle(""); // Maintain an empty state
+        setIsEditing(false); // End editing mode
+      } else {
+        setIsEditing(false);
+        sendHandleToServer(handle); // Send the handle to the server if it's not empty
+      }
     }
   };
 
   const sendHandleToServer = (handle) => {
-    // Simulate a network request here. You'd replace this with your actual network request in a real application.
+    // Placeholder for a server request
     console.log(`Sending handle ${handle} to server...`);
   };
 
@@ -55,34 +84,67 @@ const LinkButton = ({ network }) => {
     <div
       className="border border-[1.5px] border-black rounded-[7px] overflow-hidden"
       ref={wrapperRef}
-      style={{ margin: "0.5rem", display: "inline-block" }}
+      style={{ display: "inline-block" }}
     >
       {isEditing ? (
         <input
+          ref={inputRef}
           type="text"
           value={handle}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
-          style={{ width: "150px", height: "30px", padding: "5px" }} // Set width and height
+          className="w-[150px] h-[30px] bg-spink px-2 focus:outline-none"
         />
       ) : (
         <button
           onClick={handleButtonClick}
-          style={{ width: "150px", height: "30px", padding: "5px" }} // Set width and height
+          className="flex items-center justify-center w-[150px] h-[30px] p-2"
         >
-          {handle}
+          <Image src={img} alt={network} width={20} height={20} />
+          <div className="flex-1 overflow-clip">
+            {handle || defaultText}
+          </div>{" "}
+          <Image
+            onClick={handleEditSignClick}
+            src={"/addlink.svg"}
+            alt={network}
+            width={20}
+            height={20}
+          />
         </button>
       )}
     </div>
   );
 };
 
+const Links = [
+  {
+    network: "twitter",
+    defaultText: "add handle",
+    img: "/x.svg",
+    baseUrl: "https://twitter.com/",
+  },
+  {
+    network: "farcaster",
+    defaultText: "add handle",
+    img: "/farcaster.svg",
+    baseUrl: "https://farcaster.xyz/",
+    handle: "",
+  },
+  {
+    network: "github",
+    defaultText: "add handle",
+    img: "/github.svg",
+    baseUrl: "https://github.com/",
+    handle: "qpwedev",
+  },
+];
 const WidgetLinks = () => {
   return (
-    <div className="flex">
-      <LinkButton network="Twitter" />
-      <LinkButton network="Farcaster" />
-      <LinkButton network="Github" />
+    <div className="flex gap-4 w-full flex-wrap">
+      {Links.map((linkData, index) => (
+        <LinkButton key={index} linkData={linkData} />
+      ))}
     </div>
   );
 };

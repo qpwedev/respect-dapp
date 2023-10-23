@@ -2,13 +2,11 @@ import React from "react";
 import WidgetContainer from "./WidgetContainer";
 import WidgetTitle from "./WidgetTitle";
 
-const WidgetJar = () => {
+const WidgetJar = ({ className = "" }: { className?: string }) => {
   return (
-    <div>
-      <WidgetContainer>
-        <WidgetTitle>On-chain respects</WidgetTitle>
-      </WidgetContainer>
-    </div>
+    <WidgetContainer className={`min-h-[500px] ${className}`}>
+      <WidgetTitle>On-chain respects</WidgetTitle>
+    </WidgetContainer>
   );
 };
 
