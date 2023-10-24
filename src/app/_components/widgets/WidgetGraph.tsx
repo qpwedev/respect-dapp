@@ -3,29 +3,42 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import WidgetContainer from "./WidgetContainer";
+import { trpc } from "../../_trpc/client";
 
 export default function WidgetGraph({
   className = "",
+  initialGraphData,
 }: {
   className?: string;
+  initialGraphData: any;
 }) {
-  const data = {
-    nodes: [
-      { id: "Alice", group: 1, status: 1 },
-      { id: "Bob", group: 2, status: 2 },
-      { id: "Carol", group: 3, status: 3 },
-    ],
-    links: [
-      { source: "Alice", target: "Bob", value: 1, type: "arrow" },
-      { source: "Bob", target: "Carol", value: 2, type: "arrow" },
-    ],
-    types: ["arrow"],
-  };
+  // const data = {
+  //   nodes: [
+  //     { id: "Alice", group: 1, status: 1 },
+  //     { id: "Bob", group: 2, status: 2 },
+  //     { id: "Carol", group: 3, status: 3 },
+  //   ],
+  //   links: [
+  //     { source: "Alice", target: "Bob", value: 1, type: "arrow" },
+  //     { source: "Bob", target: "Carol", value: 2, type: "arrow" },
+  //   ],
+  //   types: ["arrow"],
+  // };
+
+  const data = trpc.getAttestations.useQuery(undefined, {
+    initialData: initialGraphData,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
+
+  console.log(data);
+
+  data.types = ["arrow"];
 
   const customColors = ["#FDF5FF"];
   return (
     <WidgetContainer className={`min-h-[500px] ${className}`}>
-      <Graph data={data} customColors={customColors} />
+      <Graph data={data.data} customColors={customColors} />
     </WidgetContainer>
   );
 }
@@ -49,6 +62,8 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
     const color = customColors
       ? d3.scaleOrdinal(customColors)
       : d3.scaleOrdinal(d3.schemeCategory10);
+
+    console.log(data);
 
     const links = data.links.map((d) => Object.assign({}, d));
     const nodes = data.nodes.map((d) => Object.assign({}, d));

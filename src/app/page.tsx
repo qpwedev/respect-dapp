@@ -4,8 +4,12 @@ import WidgetAccount from "./_components/widgets/WidgetAccount";
 import { generateName } from "./_utils/nameGenerator";
 import Footer from "./_components/Footer";
 import WidgetGraph from "./_components/widgets/WidgetGraph";
+import { serverClient } from "./_trpc/serverClient";
 
-export default function Home() {
+export default async function Home() {
+  const initialGraphData = await serverClient.getAttestations();
+  console.log(initialGraphData);
+
   return (
     <main className="p-5 lg:h-screen flex flex-col">
       <Header />
@@ -14,7 +18,10 @@ export default function Home() {
           handle={generateName()}
           className="lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2"
         />
-        <WidgetGraph className="lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-3" />
+        <WidgetGraph
+          initialGraphData={initialGraphData}
+          className="lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-3"
+        />
         <WidgetPersonalities className="lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3" />
       </div>
 
