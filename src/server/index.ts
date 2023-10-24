@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { todos } from "@/db/schema";
 import { eq } from "drizzle-orm";
-
+import { exploreIncomingAttestations, exploreOutgoingAttestations } from "./graphql/requests";
 
 const sqlite = new Database("sqlite.db");
 const db = drizzle(sqlite);
@@ -29,7 +29,6 @@ export const appRouter = router(
     {
         getTodos: publicProcedure.query(
             async () => {
-
                 return db.select().from(todos).all();
             }
         ),
@@ -47,6 +46,15 @@ export const appRouter = router(
                 return true;
             }
         ),
+
+        getAttestations: publicProcedure.query(
+            async () => {
+                const data = await exploreIncomingAttestations("0xBB60ADaFB45ebbf4CE60799950a39f3dfb3AD2DC", "0x47a5c13d25325ce9923ab417bb362e151422d02d6649cf8a8e873a0e2dba4065", 2);
+
+                return JSON.stringify(Object.fromEntries(data));
+            }
+        )
+        ,
         setDone: publicProcedure.input(
             z.object(
                 {
@@ -67,4 +75,3 @@ export const appRouter = router(
 )
 
 
-export type AppRouter = typeof appRouter;
