@@ -16,9 +16,10 @@ export default function WidgetGraph({
       { id: "Carol", group: 3, status: 3 },
     ],
     links: [
-      { source: "Alice", target: "Bob", value: 1 },
-      { source: "Bob", target: "Carol", value: 2 },
+      { source: "Alice", target: "Bob", value: 1, type: "arrow" },
+      { source: "Bob", target: "Carol", value: 2, type: "arrow" },
     ],
+    types: ["arrow"],
   };
 
   const customColors = ["#FDF5FF"];
@@ -51,6 +52,7 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
 
     const links = data.links.map((d) => Object.assign({}, d));
     const nodes = data.nodes.map((d) => Object.assign({}, d));
+    const types = Array.from(new Set(links.map((d) => d.type)));
 
     const simulation = d3
       .forceSimulation(nodes)
@@ -84,7 +86,11 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
       .attr("stroke-dasharray", "6,16")
       .attr("stroke-linecap", "round")
       .attr("stroke", "#B388EB")
-      .attr("stroke-opacity", 0.6);
+      .attr("stroke-opacity", 0.6)
+      .attr(
+        "marker-end",
+        (d) => `url(${new URL(`#arrow-${d.type}`, location)})`
+      );
 
     const defs = svg.append("defs");
 
@@ -138,6 +144,22 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
       .attr("operator", "over")
       .attr("in", "shadow")
       .attr("in2", "SourceGraphic");
+
+    svg
+      .append("defs")
+      .selectAll("marker")
+      .data(types)
+      .join("marker")
+      .attr("id", (d) => `arrow-${d}`)
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 60)
+      .attr("refY", 0)
+      .attr("markerWidth", 3)
+      .attr("markerHeight", 3)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("fill", "#B388EB")
+      .attr("d", "M0,-5L10,0L0,5");
 
     const node = svg
       .append("g")
