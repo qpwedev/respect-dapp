@@ -20,6 +20,7 @@ interface Attestation {
   decodedData: string;
   subject: string;
   attester: string;
+  depth: number;
 }
 
 async function bfsTraversal(
@@ -54,14 +55,18 @@ async function bfsTraversal(
     ];
 
     if (allAttestations.length > 0) {
+      const allAttestationsWithDepth = allAttestations.map((attestation) => {
+        return { ...attestation, depth: currentNode.depth };
+      });
+
       if (visited.has(currentNode.address)) {
         const existingAttestations = visited.get(currentNode.address);
         const mergedAttestations = [
-          ...new Set([...existingAttestations, ...allAttestations]),
+          ...new Set([...existingAttestations, ...allAttestationsWithDepth]),
         ];
         visited.set(currentNode.address, mergedAttestations);
       } else {
-        visited.set(currentNode.address, allAttestations);
+        visited.set(currentNode.address, allAttestationsWithDepth);
       }
     }
 
@@ -88,6 +93,7 @@ interface GraphNode {
   data: {
     incoming: number;
     outgoing: number;
+    depth: number;
   };
 }
 
@@ -98,10 +104,49 @@ interface GraphLink {
   type: string;
 }
 
+function setDepth(
+  depthMap: Map<string, Set<number>>,
+  depth: number,
+  address: string,
+  startAddress: string
+) {
+  if (address.toLowerCase() === startAddress.toLowerCase()) {
+    return;
+  }
+
+  if (!depthMap.has(address)) {
+    depthMap.set(address, new Set([depth]));
+  } else {
+    const existingDepth = depthMap.get(address);
+    existingDepth?.add(depth);
+  }
+}
+
+function findTrueDepth(depths: Set<number>): number {
+  let trueDepth = 0;
+  if (depths.size === 1) {
+    trueDepth = Math.max(trueDepth, 0);
+  } else if (depths.size === 2) {
+    trueDepth = Math.max(trueDepth, Math.max(...Array.from(depths)));
+  } else if (depths.size === 3) {
+    trueDepth = Math.max(trueDepth, Math.max(...Array.from(depths)) - 1);
+  } else if (depths.size === 4) {
+    trueDepth = Math.max(trueDepth, Math.max(...Array.from(depths)) - 2);
+  }
+
+  return trueDepth;
+}
+
 // Define a function to process the attestations
-function processData(attestationsMap: Map<string, Attestation[]>) {
+function processData(
+  startAddress: string,
+  attestationsMap: Map<string, Attestation[]>
+) {
   const incomingMap = new Map<string, number>();
   const outgoingMap = new Map<string, number>();
+  const depthMap = new Map<string, Set<number>>();
+  const trueDepthMap = new Map<string, number>();
+  depthMap.set(startAddress.toLowerCase(), new Set([0]));
 
   // Define arrays for graph nodes and links
   let nodes: GraphNode[] = [];
@@ -122,6 +167,9 @@ function processData(attestationsMap: Map<string, Attestation[]>) {
         (outgoingMap.get(attestation.attester) || 0) + 1
       );
 
+      setDepth(depthMap, attestation.depth, attestation.attester, startAddress);
+      setDepth(depthMap, attestation.depth, attestation.subject, startAddress);
+
       // Add to links array
       links.push({
         source: attestation.attester,
@@ -138,6 +186,10 @@ function processData(attestationsMap: Map<string, Attestation[]>) {
     ...Array.from(outgoingMap.keys()),
   ]);
 
+  depthMap.forEach((depths, address) => {
+    trueDepthMap.set(address, findTrueDepth(depths));
+  });
+
   allAddresses.forEach((address) => {
     nodes.push({
       id: address,
@@ -146,6 +198,7 @@ function processData(attestationsMap: Map<string, Attestation[]>) {
       data: {
         incoming: incomingMap.get(address) || 0,
         outgoing: outgoingMap.get(address) || 0,
+        depth: trueDepthMap.get(address) || 0,
       },
     });
   });
@@ -169,7 +222,7 @@ export async function exploreAllAttestations(
 }> {
   const attestationNodes = await bfsTraversal(startAddress, schemaId, maxDepth);
 
-  const processedDataForGraph = processData(attestationNodes);
+  const processedDataForGraph = processData(startAddress, attestationNodes);
 
   return processedDataForGraph;
 }

@@ -167,7 +167,7 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
       .join("marker")
       .attr("id", (d) => `arrow-${d}`)
       .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 60)
+      .attr("refX", 0)
       .attr("refY", 0)
       .attr("markerWidth", 3)
       .attr("markerHeight", 3)
@@ -182,10 +182,10 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
       .data(nodes)
       .join("circle")
       .attr("r", (d) => {
-        switch (d.status) {
-          case 1:
+        switch (d.data.depth) {
+          case 0:
             return 60;
-          case 2:
+          case 1:
             return 50;
           default:
             return 40;
@@ -201,15 +201,12 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
           .on("end", dragended)
       )
       .on("click", (e, d) => {
-        console.log(e, d);
         clicked(e, [d.x, d.y]);
         setPickedNode(d);
         const modal = d3.select("#myModal");
         modal.style("display", "block");
 
         window.onclick = function (event) {
-          console.log(event.target);
-          console.log(document.getElementById("myModal"));
           if (event.target !== document.getElementById("myModal")) {
             modal.style("display", "none");
           }

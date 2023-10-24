@@ -8,7 +8,6 @@ import { serverClient } from "./_trpc/serverClient";
 
 export default async function Home() {
   const initialGraphData = await serverClient.getAttestations();
-  console.log(initialGraphData);
 
   return (
     <main className="p-5 lg:h-screen flex flex-col">
