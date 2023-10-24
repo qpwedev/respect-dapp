@@ -1,10 +1,9 @@
-import Image from "next/image";
 import Header from "./_components/Header";
-import WidgetJar from "./_components/widgets/WidgetJar";
 import WidgetPersonalities from "./_components/widgets/WidgetPersonalities";
 import WidgetAccount from "./_components/widgets/WidgetAccount";
 import { generateName } from "./_utils/nameGenerator";
 import Footer from "./_components/Footer";
+import WidgetGraph from "./_components/widgets/WidgetGraph";
 
 export default function Home() {
   return (
@@ -15,7 +14,7 @@ export default function Home() {
           handle={generateName()}
           className="lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2"
         />
-        <WidgetJar className="lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-3" />
+        <WidgetGraph className="lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-3" />
         <WidgetPersonalities className="lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3" />
       </div>
 
