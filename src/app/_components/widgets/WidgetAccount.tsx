@@ -23,9 +23,9 @@ const WidgetAccount = ({
 
   return (
     <div className={`flex flex-col gap-5 ${className}`}>
-      <WidgetContainer className="bg-spink !border-spink text-black min-h-[200px] !justify-around p-5 flex-1">
-        <div className="flex flex-col self-start gap-3">
-          <WidgetTitle className="!font-bold !text-[2.5rem] self-start flex justify-center gap-3">
+      <WidgetContainer className="min-h-[200px] flex-1 !justify-around !border-spink bg-spink p-5 text-black">
+        <div className="flex flex-col gap-3 self-start">
+          <WidgetTitle className="flex justify-center gap-3 self-start !text-[2.5rem] !font-bold">
             <div>{handle}</div>
             <ShareButton
               title="Share your account"
@@ -34,7 +34,7 @@ const WidgetAccount = ({
             />
           </WidgetTitle>
 
-          <div className="font-light self-start">
+          <div className="self-start font-light">
             {isMounted ? address : "Loading..."}
           </div>
         </div>
@@ -42,7 +42,7 @@ const WidgetAccount = ({
         <WidgetLinks />
       </WidgetContainer>
 
-      <WidgetContainer className="!border-spink font-light text-[24px] p-3 cursor-pointer hover:bg-spink hover:text-black">
+      <WidgetContainer className="cursor-pointer !border-spink p-3 text-[24px] font-light hover:bg-spink hover:text-black">
         GIVE RESPECT
       </WidgetContainer>
     </div>

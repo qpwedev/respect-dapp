@@ -13,7 +13,7 @@ export default function Web3ModalConnectButton({
   return (
     <>
       <button
-        className={`border-[1px] border-white-400 rounded-[13px] px-2 py-1 flex items-center justify-between gap-2 ${className}`}
+        className={`border-white-400 flex items-center justify-between gap-2 rounded-[13px] border-[1px] px-2 py-1 ${className}`}
         onClick={() => open()}
       >
         <div>Connect</div>

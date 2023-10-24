@@ -5,9 +5,9 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="flex justify-between items-center gap-10 mt-[36px]">
+    <div className="mt-[36px] flex items-center justify-between gap-10">
       <div className="flex basis-1/5 gap-6">
-        <div className="filter invert">
+        <div className="invert filter">
           <Image
             className=""
             src={"/x.svg"}
@@ -25,7 +25,7 @@ const Footer = () => {
           />
         </div>
       </div>
-      <WidgetContainer className="!border-spink font-light text-[24px] p-3 cursor-pointer hover:bg-spink bg-spink hover:text-black text-black flex-1 basis-3/5 ">
+      <WidgetContainer className="flex-1  basis-3/5 cursor-pointer !border-spink bg-spink p-3 text-[24px] font-light text-black hover:bg-spink hover:text-black ">
         EXPLORE
       </WidgetContainer>
       <div className="basis-1/5 text-right">establish, explore, connect</div>

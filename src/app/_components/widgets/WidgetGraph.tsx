@@ -76,7 +76,7 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
         d3
           .forceLink(links)
           .id((d) => d.id)
-          .distance(200)
+          .distance(200),
       )
       .force("charge", d3.forceManyBody().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2))
@@ -104,7 +104,7 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
       .attr("stroke-opacity", 0.6)
       .attr(
         "marker-end",
-        (d) => `url(${new URL(`#arrow-${d.type}`, location)})`
+        (d) => `url(${new URL(`#arrow-${d.type}`, location)})`,
       );
 
     const defs = svg.append("defs");
@@ -198,7 +198,7 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
           .drag()
           .on("start", dragstarted)
           .on("drag", dragged)
-          .on("end", dragended)
+          .on("end", dragended),
       )
       .on("click", (e, d) => {
         clicked(e, [d.x, d.y]);
@@ -240,7 +240,7 @@ const Graph = ({ data, customColors }: { data: any; customColors: any }) => {
             .translate(width / 2, height / 2)
             .scale(1.2)
             .translate(-x, -y),
-          d3.pointer(event)
+          d3.pointer(event),
         );
     }
 
@@ -309,17 +309,17 @@ function NodeModal({ node }: { node: any }) {
     <div
       ref={ref}
       id="myModal"
-      className={`hidden absolute rounded-3xl min-w-[450px] min-h-[250px] bg-[#FFF] border-[1px] border-[#B388EB] p-5`}
+      className={`absolute hidden min-h-[250px] min-w-[450px] rounded-3xl border-[1px] border-[#B388EB] bg-[#FFF] p-5`}
       style={{
         left: `${modalLeft}px`,
         top: `${modalTop}px`,
       }}
     >
-      <div className="text-[#000] font-bold text-4xl w-full">alicia.linea</div>
-      <div className="text-[#818181] font-normal text-l w-full">
+      <div className="w-full text-4xl font-bold text-[#000]">alicia.linea</div>
+      <div className="text-l w-full font-normal text-[#818181]">
         0xBB60ADaFB4...CE60799950a39f3dfb3AD2DC
       </div>
-      <div className="bg-[#B388EB] w-full h-[1px]"></div>
+      <div className="h-[1px] w-full bg-[#B388EB]"></div>
       <div>☘️ on-chain since:</div>
       <div>🫶 respects received:</div>
       <div>👁 respects given:</div>

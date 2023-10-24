@@ -23,15 +23,15 @@ const Header = () => {
   }, [isMenuOpen]);
 
   return (
-    <div className="border-[1px] border-spink rounded-[22px] py-[1rem] px-[2rem] flex items-center justify-between">
+    <div className="flex items-center justify-between rounded-[22px] border-[1px] border-spink px-[2rem] py-[1rem]">
       <Logo />
 
-      <div className="lg:flex lg:gap-10 lg:block hidden">
+      <div className="hidden lg:block lg:flex lg:gap-10">
         <Navigation />
         <Web3ModalConnectButton />
       </div>
 
-      <div className="z-[100] lg:hidden block">
+      <div className="z-[100] block lg:hidden">
         <Hamburger
           toggled={isMenuOpen}
           toggle={() => setIsMenuOpen(!isMenuOpen)}
@@ -40,9 +40,9 @@ const Header = () => {
 
       {/* Fullscreen menu that shows when burger is clicked */}
       {isMenuOpen && (
-        <div className="fixed top-0 left-0 h-screen w-screen bg-black z-50 p-5 flex flex-col justify-between">
-          <Navigation className="flex-col text-3xl mt-[1.4rem] ml-[2.5rem]" />
-          <Web3ModalConnectButton className="py-5 mb-20 text-3xl" />
+        <div className="fixed left-0 top-0 z-50 flex h-screen w-screen flex-col justify-between bg-black p-5">
+          <Navigation className="ml-[2.5rem] mt-[1.4rem] flex-col text-3xl" />
+          <Web3ModalConnectButton className="mb-20 py-5 text-3xl" />
         </div>
       )}
     </div>

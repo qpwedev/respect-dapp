@@ -28,13 +28,13 @@ const WidgetPersonalities = ({ className = "" }: { className?: string }) => {
       className={`transition-all duration-700 ease-in-out ${className}`}
       ref={containerRef}
     >
-      <WidgetContainer className="overflow-hidden relative p-4 gap-2 h-full">
+      <WidgetContainer className="relative h-full gap-2 overflow-hidden p-4">
         <div
           className={`transition-opacity duration-300 ${
             showSecondContent ? "opacity-0" : "opacity-100"
           }`}
         >
-          <div className="flex gap-6 flex-col items-center">
+          <div className="flex flex-col items-center gap-6">
             <WidgetTitle className="max-w-[15rem] text-center">
               Your personalities collection will be here
             </WidgetTitle>
@@ -46,7 +46,7 @@ const WidgetPersonalities = ({ className = "" }: { className?: string }) => {
             !showSecondContent ? "opacity-0" : "opacity-100"
           }`}
         >
-          <div className="h-full flex flex-col gap-6">
+          <div className="flex h-full flex-col gap-6">
             <WidgetTitle className="text-center">
               What are Personalities?
             </WidgetTitle>

@@ -29,7 +29,7 @@ export const appRouter = router({
         const data = await exploreAllAttestations(
             "0xBB60ADaFB45ebbf4CE60799950a39f3dfb3AD2DC",
             "0x7644469043E6CE9F4D288DCF021AA6F9022075E15F6746FDFED8C8EBEED558EE",
-            3
+            4
         );
 
         return data;

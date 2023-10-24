@@ -82,7 +82,7 @@ const LinkButton = ({ linkData }) => {
 
   return (
     <div
-      className="border border-[1.5px] border-black rounded-[7px] overflow-hidden"
+      className="overflow-hidden rounded-[7px] border border-[1.5px] border-black"
       ref={wrapperRef}
       style={{ display: "inline-block" }}
     >
@@ -93,12 +93,12 @@ const LinkButton = ({ linkData }) => {
           value={handle}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
-          className="w-[150px] h-[30px] bg-spink px-2 focus:outline-none"
+          className="h-[30px] w-[150px] bg-spink px-2 focus:outline-none"
         />
       ) : (
         <button
           onClick={handleButtonClick}
-          className="flex items-center justify-center w-[150px] h-[30px] p-2"
+          className="flex h-[30px] w-[150px] items-center justify-center p-2"
         >
           <Image src={img} alt={network} width={20} height={20} />
           <div className="flex-1 overflow-clip">
@@ -141,7 +141,7 @@ const Links = [
 ];
 const WidgetLinks = () => {
   return (
-    <div className="flex gap-4 w-full flex-wrap">
+    <div className="flex w-full flex-wrap gap-4">
       {Links.map((linkData, index) => (
         <LinkButton key={index} linkData={linkData} />
       ))}
