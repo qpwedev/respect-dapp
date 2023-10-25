@@ -52,7 +52,7 @@ const Graph = ({
         d3
           .forceLink(links)
           .id((d) => d.id)
-          .distance(200)
+          .distance(200),
       )
       .force("charge", d3.forceManyBody().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2))
@@ -80,7 +80,7 @@ const Graph = ({
       .attr("stroke-opacity", 0.6)
       .attr(
         "marker-end",
-        (d) => `url(${new URL(`#arrow-${d.type}`, location)})`
+        (d) => `url(${new URL(`#arrow-${d.type}`, location)})`,
       );
 
     const defs = svg.append("defs");
@@ -174,13 +174,13 @@ const Graph = ({
           .drag()
           .on("start", dragstarted)
           .on("drag", dragged)
-          .on("end", dragended)
+          .on("end", dragended),
       )
       .on("click", (e, d) => {
         clicked(e, [d.x, d.y]);
         setPickedNode(d);
         const modal = d3.select("#myModal");
-        modal.style("display", "block");
+        modal.style("display", "flex");
 
         window.onclick = function (event) {
           if (event.target !== document.getElementById("myModal")) {
@@ -216,7 +216,7 @@ const Graph = ({
             .translate(width / 2, height / 2)
             .scale(1.2)
             .translate(-x, -y),
-          d3.pointer(event)
+          d3.pointer(event),
         );
     }
 
@@ -285,20 +285,87 @@ const NodeModal = ({ node }: { node: any }) => {
     <div
       ref={ref}
       id="myModal"
-      className={`hidden absolute rounded-3xl min-w-[450px] min-h-[250px] bg-[#FFF] border-[1px] border-[#B388EB] p-5`}
+      className={`absolute text-[#000] flex-col gap-4 hidden min-h-[250px] min-w-[450px] rounded-3xl border-[1px] border-[#B388EB] bg-[#FFF] p-5`}
       style={{
         left: `${modalLeft}px`,
         top: `${modalTop}px`,
       }}
     >
-      <div className="text-[#000] font-bold text-4xl w-full">alicia.linea</div>
-      <div className="text-[#818181] font-normal text-l w-full">
-        0xBB60ADaFB4...CE60799950a39f3dfb3AD2DC
+      <ENSAndAddress ens={node?.data.ens} address={node?.id} />
+
+      <div className="h-[1px] w-full bg-[#B388EB]"></div>
+
+      <div className="flex flex-col gap-3">
+        <TextRow emoji="☘️" text="on-chain since:" value="immemorial" />
+        <TextRow
+          emoji="🫶"
+          text="respects received:"
+          value={node?.data.incoming}
+        />
+        <TextRow emoji="👁" text="respects given:" value={node?.data.outgoing} />
       </div>
-      <div className="bg-[#B388EB] w-full h-[1px]"></div>
-      <div>☘️ on-chain since:</div>
-      <div>🫶 respects received:</div>
-      <div>👁 respects given:</div>
+    </div>
+  );
+};
+
+const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
+  const handleAddressCopy = (e: any) => {
+    navigator.clipboard.writeText(address);
+  };
+
+  const handleENSCopy = () => {
+    navigator.clipboard.writeText(ens);
+  };
+
+  return (
+    <div className="flex flex-col gap-1">
+      {!ens ? (
+        <div
+          className="w-full text-4xl font-bold text-[#000]"
+          onClick={handleAddressCopy}
+        >
+          {trimText(address, 10)}
+        </div>
+      ) : (
+        <>
+          <div
+            className="w-full text-4xl font-bold text-[#000]"
+            onClick={handleENSCopy}
+          >
+            {ens}
+          </div>
+          <div
+            className="text-l w-full font-normal text-[#818181]"
+            onClick={handleAddressCopy}
+          >
+            {address}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+const trimText = (text: string, trimTo: number) => {
+  if (text?.length > trimTo) {
+    return text.slice(0, trimTo) + "..." + text.slice(-trimTo);
+  }
+};
+
+const TextRow = ({
+  emoji,
+  text,
+  value,
+}: {
+  emoji: string;
+  text: string;
+  value: string;
+}) => {
+  return (
+    <div className="flex flex-row gap-2">
+      <div className="text-2xl">{emoji}</div>
+      <div className="text-xl">{text}</div>
+      <div className="text-xl">{value}</div>
     </div>
   );
 };
