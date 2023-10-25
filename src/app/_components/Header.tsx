@@ -23,7 +23,7 @@ const Header = () => {
   }, [isMenuOpen]);
 
   return (
-    <div className="flex items-center justify-between rounded-[22px] border-[1px] border-spink px-[2rem] py-[1rem]">
+    <div className="flex items-center justify-between bg-transparent backdrop-blur rounded-[22px] border-[1px] border-spink px-[2rem] py-[1rem]">
       <Logo />
 
       <div className="hidden lg:block lg:flex lg:gap-10">
