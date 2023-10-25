@@ -6,7 +6,7 @@ import WidgetTitle from "./WidgetTitle";
 import { useAccount } from "wagmi";
 import WidgetLinks from "./WidgetLinks";
 import ShareButton from "../ShareButton";
-
+import { WidgetRespectButton } from "./WidgetRespectButton";
 const WidgetAccount = ({
   handle,
   className = "",
@@ -42,9 +42,7 @@ const WidgetAccount = ({
         <WidgetLinks />
       </WidgetContainer>
 
-      <WidgetContainer className="cursor-pointer !border-spink p-3 text-[24px] font-light hover:bg-spink hover:text-black">
-        GIVE RESPECT
-      </WidgetContainer>
+      <WidgetRespectButton subject="0xBB60ADaFB45ebbf4CE60799950a39f3dfb3AD2DC" />
     </div>
   );
 };
