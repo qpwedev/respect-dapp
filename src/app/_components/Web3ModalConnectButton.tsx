@@ -1,7 +1,10 @@
 "use client";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
-import Arrow from "../_assets/arrow.svg";
-import Image from "next/image";
+
+import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
+import ArrowSVG from "../_assets/Arrow";
+import ConnectedSVG from "../_assets/Connected";
+import { useAccount } from "wagmi";
+import { useRef, useState } from "react";
 
 export default function Web3ModalConnectButton({
   className = "",
@@ -9,18 +12,44 @@ export default function Web3ModalConnectButton({
   className?: string;
 }) {
   const { open } = useWeb3Modal();
+  const { open: isModalOpened } = useWeb3ModalState();
+  const { address, isConnecting } = useAccount();
+  const [hoveredColor, setHoveredColor] = useState<string>("#FFF");
+
+  const btnRef = useRef<HTMLButtonElement | null>(null);
+
+  const removeButtonFocus = () => {
+    btnRef.current?.blur();
+  };
+
+  const handleClick = () => {
+    open();
+    removeButtonFocus();
+  };
 
   return (
-    <>
-      <button
-        className={`border-white-400 flex items-center justify-between gap-2 rounded-[13px] border-[1px] px-2 py-1 ${className}`}
-        onClick={() => open()}
-      >
-        <div>Connect</div>
-        <div>
-          <Image alt="arrow" src={Arrow} />
-        </div>
-      </button>
-    </>
+    <button
+      ref={btnRef}
+      className={`border-white-400 focus:bg-transparent focus:text-[#818181] focus:border-[#818181] select-none w-[140px] flex items-center justify-between gap-2 rounded-[13px] border-[1px] px-2 py-1 ${className} hover:bg-[#FDC5F5] hover:border-[#FDC5F5] hover:text-[#121212]`}
+      onClick={handleClick}
+      onMouseEnter={() => setHoveredColor("#121212")}
+      onMouseLeave={() => setHoveredColor("#FFF")}
+      onFocus={() => setHoveredColor("#818181")}
+      onBlur={() => setHoveredColor("#FFF")}
+    >
+      {!address && (isModalOpened || isConnecting) ? (
+        <div>Connecting...</div>
+      ) : address ? (
+        <>
+          <div>Connected</div>
+          <ConnectedSVG fill={hoveredColor} />
+        </>
+      ) : (
+        <>
+          <div>Connect</div>
+          <ArrowSVG fill={hoveredColor} />
+        </>
+      )}
+    </button>
   );
 }

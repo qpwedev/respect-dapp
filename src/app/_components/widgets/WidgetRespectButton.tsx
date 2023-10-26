@@ -6,7 +6,6 @@ import {
 } from "wagmi";
 import WidgetContainer from "./WidgetContainer";
 import { twMerge } from "tailwind-merge";
-import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 
 type WidgetRespectButtonProps = {
