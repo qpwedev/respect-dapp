@@ -180,13 +180,25 @@ const Graph = ({
         clicked(e, [d.x, d.y]);
         setPickedNode(d);
         const modal = d3.select("#myModal");
+        const modalElement = document.getElementById("myModal");
         modal.style("display", "flex");
 
         window.onclick = function (event) {
-          if (event.target !== document.getElementById("myModal")) {
-            modal.style("display", "none");
+          if (!modalElement?.contains(event.target) && event.target !== modalElement && modalElement !== null) {
+            modalElement.style.display = "none";
           }
         };
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            if (
+              modalElement?.style.display !== "none" &&
+              modalElement !== null
+            ) {
+              modalElement.style.display = "none";
+            }
+          }
+        });
 
         d3.select(".close").on("click", () => {
           modal.style("display", "none");
@@ -302,7 +314,11 @@ const NodeModal = ({ node }: { node: any }) => {
           text="respects received:"
           value={node?.data.incoming}
         />
-        <TextRow emoji="👁" text="respects given:" value={node?.data.outgoing} />
+        <TextRow
+          emoji="👁"
+          text="respects given:"
+          value={node?.data.outgoing}
+        />
       </div>
     </div>
   );
