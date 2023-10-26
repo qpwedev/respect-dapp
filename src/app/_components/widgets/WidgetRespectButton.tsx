@@ -7,6 +7,7 @@ import {
 import WidgetContainer from "./WidgetContainer";
 import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 type WidgetRespectButtonProps = {
   subject: string;
@@ -81,6 +82,18 @@ export const WidgetRespectButton: React.FC<WidgetRespectButtonProps> = (
     hash: data?.hash,
   });
 
+  React.useEffect(() => {
+    if (isPrepareError || isError) {
+      if (error?.name === "TransactionExecutionError") {
+        toast.error(`Transaction was rejected`);
+      } else {
+        toast.error(
+          `Error: ${(prepareError || error)?.message.slice(0, 70)}...`,
+        );
+      }
+    }
+  }, [isPrepareError, isError, prepareError, error]);
+
   return (
     <button
       className="w-full transition"
@@ -92,7 +105,7 @@ export const WidgetRespectButton: React.FC<WidgetRespectButtonProps> = (
           "cursor-pointer border-spink p-3 text-[24px] font-light hover:bg-spink hover:text-black transition",
           isLoading ? "animate-pulse" : "",
           isSuccess
-            ? "border-green-400 hover:border-green-500 hover:-translate-y-[0px] hover:bg-black hover:text-white "
+            ? "hover:-translate-y-[0px] hover:bg-black hover:text-white "
             : "",
         )}
       >
@@ -101,19 +114,13 @@ export const WidgetRespectButton: React.FC<WidgetRespectButtonProps> = (
         ) : isSuccess ? (
           <a
             className="underline"
-              href={`https://testnet.lineascan.build/tx/${data?.hash}`}
+            href={`https://testnet.lineascan.build/tx/${data?.hash}`}
             target="_blank"
           >
             Check your attestation on Lineascan
           </a>
         ) : (
           "GIVE RESPECT"
-        )}
-
-        {(isPrepareError || isError) && (
-          <div className="text-xs text-red-400">
-            Error: {(prepareError || error)?.message}
-          </div>
         )}
       </WidgetContainer>
     </button>

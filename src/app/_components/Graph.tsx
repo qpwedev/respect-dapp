@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { trpc } from "../_trpc/client";
+import { motion } from "framer-motion";
 
 const GraphWrapper = ({ initialGraphData }: { initialGraphData: any }) => {
   const data = trpc.getAttestations.useQuery(undefined, {
@@ -24,6 +25,7 @@ const Graph = ({
 }) => {
   const ref = useRef<SVGSVGElement>(null);
   const [pickedNode, setPickedNode] = useState<any>(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     drawGraph(data, customColors);
@@ -252,6 +254,7 @@ const Graph = ({
 
   return (
     <div
+      ref={containerRef}
       style={{
         width: "100%",
         height: "100%",
@@ -260,7 +263,7 @@ const Graph = ({
         position: "relative",
       }}
     >
-      <NodeModal node={pickedNode} />
+      <NodeModal containerRef={containerRef} node={pickedNode} />
 
       <svg
         ref={ref}
@@ -275,7 +278,13 @@ const Graph = ({
   );
 };
 
-const NodeModal = ({ node }: { node: any }) => {
+const NodeModal = ({
+  node,
+  containerRef,
+}: {
+  node: any;
+  containerRef: any;
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [modalSize, setModalSize] = useState<[number, number]>([0, 0]);
   const modalTop = (modalSize[1] - 250) / 2;
@@ -294,7 +303,7 @@ const NodeModal = ({ node }: { node: any }) => {
   }, []);
 
   return (
-    <div
+    <motion.div
       ref={ref}
       id="myModal"
       className={`absolute text-[#000] flex-col gap-4 hidden min-h-[250px] min-w-[450px] rounded-3xl border-[1px] border-[#B388EB] bg-[#FFF] p-5`}
@@ -302,6 +311,8 @@ const NodeModal = ({ node }: { node: any }) => {
         left: `${modalLeft}px`,
         top: `${modalTop}px`,
       }}
+      drag
+      dragConstraints={containerRef}
     >
       <ENSAndAddress ens={node?.data.ens} address={node?.id} />
 
@@ -320,7 +331,7 @@ const NodeModal = ({ node }: { node: any }) => {
           value={node?.data.outgoing}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

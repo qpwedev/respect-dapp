@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { toast, ToastContainer } from "react-toastify";
 
 interface ShareButtonProps {
   title: string;
@@ -52,7 +51,6 @@ const ShareButton: React.FC<ShareButtonProps> = ({ title, text, url }) => {
           className="mb-[-2px]"
         />
       </motion.button>
-      <ToastContainer />
     </>
   );
 };

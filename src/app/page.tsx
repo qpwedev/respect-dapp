@@ -6,6 +6,9 @@ import Footer from "./_components/Footer";
 import WidgetGraph from "./_components/widgets/WidgetGraph";
 import { serverClient } from "./_trpc/serverClient";
 
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default async function Home() {
   const initialGraphData = await serverClient.getAttestations();
 
@@ -25,9 +28,21 @@ export default async function Home() {
         <WidgetPersonalities className="lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3" />
       </div>
 
-      
-
       <Footer />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="dark"
+        transition={Slide}
+        limit={1}
+      />
     </main>
   );
 }

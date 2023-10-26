@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@300;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,4 +8,25 @@
 
 .noscroll {
     overflow: hidden;
+}
+
+
+:root {
+    --toastify-color-error: #FC4747 !important;
+    --toastify-icon-color-error: white !important;
+    --toastify-font-family: 'Zilla Slab',
+        serif !important;
+}
+
+
+.Toastify__toast.Toastify__toast--error {
+    border: 2px solid #FC4747 !important;
+}
+
+.Toastify__toast-icon {
+    color: white !important;
+}
+
+.Toastify__toast {
+    border-radius: 13px !important;
 }
