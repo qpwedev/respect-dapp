@@ -7,19 +7,26 @@ import { useAccount } from "wagmi";
 import WidgetLinks from "./WidgetLinks";
 import ShareButton from "../ShareButton";
 import { WidgetRespectButton } from "./WidgetRespectButton";
+
 const WidgetAccount = ({
   handle,
+  address,
+  userLinks,
+  myself,
   className = "",
 }: {
   handle: string;
+  address: string;
+    myself: boolean;
+  userLinks: any;
   className?: string;
 }) => {
-  const [isMounted, setIsMounted] = useState(false); // State to track if the component has mounted
-  const { address } = useAccount();
+  // const [isMounted, setIsMounted] = useState(false); // State to track if the component has mounted
+  // const { address: walletAddress } = useAccount();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);
 
   return (
     <div className={`flex flex-col gap-5 ${className}`}>
@@ -34,15 +41,17 @@ const WidgetAccount = ({
             />
           </WidgetTitle>
 
-          <div className="self-start font-light">
-            {isMounted ? address : "Loading..."}
-          </div>
+          <div className="self-start font-light">{address}</div>
         </div>
 
-        <WidgetLinks />
+        <WidgetLinks
+          userLinks={ userLinks}
+
+          myself
+        />
       </WidgetContainer>
 
-      <WidgetRespectButton subject="0xBB60ADaFB45ebbf4CE60799950a39f3dfb3AD2DC" />
+      {!myself && <WidgetRespectButton subject={address} />}
     </div>
   );
 };

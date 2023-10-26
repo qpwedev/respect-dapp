@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 // Custom hook to detect clicks outside of the provided ref
 function useOutsideClickDetector(ref, onOutsideClick) {
@@ -19,8 +20,23 @@ function useOutsideClickDetector(ref, onOutsideClick) {
   }, [ref, onOutsideClick]);
 }
 
-const LinkButton = ({ linkData }) => {
-  const { network, defaultText, img, baseUrl, handle: linkHandle } = linkData;
+const LinkButton = ({
+  linkData,
+  disabled,
+  myself,
+}: {
+  linkData: LinkData;
+  disabled: boolean;
+  myself: boolean;
+}) => {
+  const {
+    network,
+    defaultText,
+    img,
+    baseUrl,
+    handle: linkHandle,
+    disabledText,
+  } = linkData;
   const [isEditing, setIsEditing] = useState(false);
   const [handle, setHandle] = useState(linkHandle || "");
   const wrapperRef = useRef(null);
@@ -53,9 +69,6 @@ const LinkButton = ({ linkData }) => {
     if (handle) {
       // If a handle is set, open the URL in a new tab
       window.open(`${baseUrl}${handle}`, "_blank");
-    } else {
-      // If no handle is set, switch to editing mode
-      setIsEditing(true);
     }
   };
 
@@ -80,9 +93,34 @@ const LinkButton = ({ linkData }) => {
     console.log(`Sending handle ${handle} to server...`);
   };
 
+  if (disabled) {
+    return (
+      <div
+        className="overflow-hidden rounded-[7px] border-[1.5px] border-[#818181] text-[#818181"
+        ref={wrapperRef}
+        style={{ display: "inline-block" }}
+      >
+        <button
+          disabled
+          className="flex h-[30px] w-[150px] items-center justify-center p-2 "
+        >
+          <Image
+            src={"/" + "gray." + img.replace("/", "")}
+            alt={network}
+            width={20}
+            height={20}
+          />
+          <div className="flex-1 overflow-clip">{disabledText}</div>{" "}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div
-      className="overflow-hidden rounded-[7px] border border-[1.5px] border-black"
+      className={
+        "overflow-hidden rounded-[7px] border border-[1.5px] border-black"
+      }
       ref={wrapperRef}
       style={{ display: "inline-block" }}
     >
@@ -98,53 +136,93 @@ const LinkButton = ({ linkData }) => {
       ) : (
         <button
           onClick={handleButtonClick}
-          className="flex h-[30px] w-[150px] items-center justify-center p-2"
+          className={twMerge(
+            "flex h-[30px] w-[150px] items-center justify-center p-2",
+            handle ? "cursor-pointer" : "cursor-default",
+          )}
         >
           <Image src={img} alt={network} width={20} height={20} />
           <div className="flex-1 overflow-clip">
             {handle || defaultText}
           </div>{" "}
-          <Image
-            onClick={handleEditSignClick}
-            src={"/addlink.svg"}
-            alt={network}
-            width={20}
-            height={20}
-          />
+          {myself && (
+            <Image
+              className="cursor-pointer"
+              onClick={handleEditSignClick}
+              src={"/addlink.svg"}
+              alt={network}
+              width={20}
+              height={20}
+            />
+          )}
         </button>
       )}
     </div>
   );
 };
 
-const Links = [
+interface LinkData {
+  network: string;
+  defaultText: string;
+  disabledText: string;
+  img: string;
+  baseUrl: string;
+  handle?: string;
+}
+
+const Links: LinkData[] = [
   {
     network: "twitter",
     defaultText: "add handle",
     img: "/x.svg",
     baseUrl: "https://twitter.com/",
+    disabledText: "No link yet",
   },
   {
     network: "farcaster",
     defaultText: "add handle",
     img: "/farcaster.svg",
     baseUrl: "https://farcaster.xyz/",
-    handle: "",
+    disabledText: "No link yet",
   },
   {
     network: "github",
     defaultText: "add handle",
     img: "/github.svg",
     baseUrl: "https://github.com/",
-    handle: "qpwedev",
+    disabledText: "No link yet",
   },
 ];
-const WidgetLinks = () => {
+
+const WidgetLinks = ({
+  userLinks,
+  myself,
+}: {
+  userLinks: any;
+  myself: boolean;
+}) => {
   return (
     <div className="flex w-full flex-wrap gap-4">
-      {Links.map((linkData, index) => (
-        <LinkButton key={index} linkData={linkData} />
-      ))}
+      {Links.map((linkData, index) => {
+        let disabled = false;
+
+        if (userLinks[linkData.network]) {
+          linkData.handle = userLinks[linkData.network];
+        }
+
+        if (!myself && !linkData.handle) {
+          disabled = true;
+        }
+
+        return (
+          <LinkButton
+            key={index}
+            myself={myself}
+            disabled={disabled}
+            linkData={linkData}
+          />
+        );
+      })}
     </div>
   );
 };
