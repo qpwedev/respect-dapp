@@ -12,22 +12,15 @@ const WidgetAccount = ({
   handle,
   address,
   userLinks,
-  myself,
   className = "",
 }: {
   handle: string;
   address: string;
-    myself: boolean;
   userLinks: any;
   className?: string;
 }) => {
-  // const [isMounted, setIsMounted] = useState(false); // State to track if the component has mounted
-  // const { address: walletAddress } = useAccount();
-
-  // useEffect(() => {
-  //   setIsMounted(true);
-  // }, []);
-
+  const { address: currentUserAddress } = useAccount();
+  const myself = currentUserAddress?.toLowerCase() === address.toLowerCase();
   return (
     <div className={`flex flex-col gap-5 ${className}`}>
       <WidgetContainer className="min-h-[200px] flex-1 !justify-around !border-spink bg-spink p-5 text-black">
@@ -44,11 +37,7 @@ const WidgetAccount = ({
           <div className="self-start font-light">{address}</div>
         </div>
 
-        <WidgetLinks
-          userLinks={ userLinks}
-
-          myself
-        />
+        <WidgetLinks userLinks={userLinks} myself />
       </WidgetContainer>
 
       {!myself && <WidgetRespectButton subject={address} />}

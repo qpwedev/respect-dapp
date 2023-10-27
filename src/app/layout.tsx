@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Zilla_Slab } from "next/font/google";
 import Provider from "./_trpc/Provider";
 import WagmiConfigWrapper from "./_components/web3modalbootstrap";
+import SearchProvider from "./contexts/SearchContext";
 
 const zilla_slab = Zilla_Slab({
   weight: ["500", "700", "300"],
@@ -23,7 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={zilla_slab.className + " " + "bg-[#121212] text-white"}>
         <Provider>
-          <WagmiConfigWrapper>{children}</WagmiConfigWrapper>
+          <SearchProvider>
+            <WagmiConfigWrapper>{children}</WagmiConfigWrapper>
+          </SearchProvider>
         </Provider>
       </body>
     </html>

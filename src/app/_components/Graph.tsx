@@ -5,15 +5,137 @@ import * as d3 from "d3";
 import { trpc } from "../_trpc/client";
 import { motion } from "framer-motion";
 
-const GraphWrapper = ({ initialGraphData }: { initialGraphData: any }) => {
-  const data = trpc.getAttestations.useQuery(undefined, {
-    initialData: initialGraphData,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-  });
+const GraphWrapper = ({
+  address,
+  isMock = false,
+  initialGraphData,
+}: {
+  address?: string;
+  isMock?: boolean;
+  initialGraphData?: any;
+}) => {
+  let data = {
+    data: {
+      nodes: [],
+      links: [],
+    },
+  };
+
+  if (isMock) {
+    data = {
+      data: {
+        nodes: [
+          {
+            id: "0x42d6622dece394b54999fbd73d108123806f6a18",
+            group: 1,
+            status: 1,
+            data: { incoming: 0, outgoing: 0, depth: 0 },
+          },
+          {
+            id: "0x42d6622dece394b54999fbd73d108123806f6a19",
+            group: 1,
+            status: 1,
+            data: { incoming: 0, outgoing: 0, depth: 1 },
+          },
+          {
+            id: "0x42d6622dece394b54999fbd73d108123806f6a20",
+            group: 1,
+            status: 1,
+            data: { incoming: 0, outgoing: 0, depth: 1 },
+          },
+          {
+            id: "0x42d6622dece394b54999fbd73d108123806f6a21",
+            group: 1,
+            status: 1,
+            data: { incoming: 0, outgoing: 0, depth: 2 },
+          },
+          {
+            id: "0x42d6622dece394b54999fbd73d108123806f6a22",
+            group: 1,
+            status: 1,
+            data: { incoming: 0, outgoing: 0, depth: 2 },
+          },
+          {
+            id: "0x42d6622dece394b54999fbd73d108123806f6a23",
+            group: 1,
+            status: 1,
+            data: { incoming: 0, outgoing: 0, depth: 2 },
+          },
+          {
+            id: "0x42d6622dece394b54999fbd73d108123806f6a24",
+            group: 1,
+            status: 1,
+            data: { incoming: 0, outgoing: 0, depth: 2 },
+          },
+        ],
+        links: [
+          {
+            source: "0x42d6622dece394b54999fbd73d108123806f6a18",
+            target: "0x42d6622dece394b54999fbd73d108123806f6a19",
+            value: 1,
+            type: "arrow",
+          },
+          {
+            source: "0x42d6622dece394b54999fbd73d108123806f6a18",
+            target: "0x42d6622dece394b54999fbd73d108123806f6a20",
+            value: 1,
+            type: "arrow",
+          },
+          {
+            source: "0x42d6622dece394b54999fbd73d108123806f6a19",
+            target: "0x42d6622dece394b54999fbd73d108123806f6a21",
+            value: 1,
+            type: "arrow",
+          },
+          {
+            source: "0x42d6622dece394b54999fbd73d108123806f6a19",
+            target: "0x42d6622dece394b54999fbd73d108123806f6a22",
+            value: 1,
+            type: "arrow",
+          },
+          {
+            source: "0x42d6622dece394b54999fbd73d108123806f6a20",
+            target: "0x42d6622dece394b54999fbd73d108123806f6a23",
+            value: 1,
+            type: "arrow",
+          },
+          {
+            source: "0x42d6622dece394b54999fbd73d108123806f6a20",
+            target: "0x42d6622dece394b54999fbd73d108123806f6a24",
+            value: 1,
+            type: "arrow",
+          },
+        ],
+      },
+    };
+  } else if (address) {
+    data = trpc.getAttestations.useQuery(address, {
+      initialData: initialGraphData,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    });
+  }
+
+  if (
+    data.data === null ||
+    data.data === undefined ||
+    data.data.nodes?.length === 0
+  ) {
+    return <GraphPlaceholder />;
+  }
 
   const customColors = ["#FDF5FF"];
   return <Graph data={data.data} customColors={customColors} />;
+};
+
+const GraphPlaceholder = () => {
+  return (
+    <div className="flex flex-col justify-center items-center h-full text-4xl text-center">
+      <p>Found no respects</p>
+      <br />
+      <p>Try searching for another address</p>
+    </div>
+  );
 };
 
 const Graph = ({
@@ -186,7 +308,11 @@ const Graph = ({
         modal.style("display", "flex");
 
         window.onclick = function (event) {
-          if (!modalElement?.contains(event.target) && event.target !== modalElement && modalElement !== null) {
+          if (
+            !modalElement?.contains(event.target) &&
+            event.target !== modalElement &&
+            modalElement !== null
+          ) {
             modalElement.style.display = "none";
           }
         };

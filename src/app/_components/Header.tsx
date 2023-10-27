@@ -6,7 +6,7 @@ import Logo from "./Logo";
 import Navigation from "./Navigation";
 import { Squash as Hamburger } from "hamburger-react";
 
-const Header = () => {
+const Header = ({ address }: { address: string }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -16,7 +16,6 @@ const Header = () => {
       document.body.classList.remove("noscroll");
     }
 
-    // Cleanup function to remove the class when the component unmounts while the menu is still open
     return () => {
       document.body.classList.remove("noscroll");
     };
@@ -27,7 +26,7 @@ const Header = () => {
       <Logo />
 
       <div className="hidden lg:block lg:flex lg:gap-10">
-        <Navigation />
+        <Navigation address={address} />
         <Web3ModalConnectButton />
       </div>
 
@@ -41,7 +40,10 @@ const Header = () => {
       {/* Fullscreen menu that shows when burger is clicked */}
       {isMenuOpen && (
         <div className="fixed left-0 top-0 z-50 flex h-screen w-screen flex-col justify-between bg-black p-5">
-          <Navigation className="ml-[2.5rem] mt-[1.4rem] flex-col text-3xl" />
+          <Navigation
+            address={address}
+            className="ml-[2.5rem] mt-[1.4rem] flex-col text-3xl"
+          />
           <Web3ModalConnectButton className="mb-20 py-5 text-3xl" />
         </div>
       )}
