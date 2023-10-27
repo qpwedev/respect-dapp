@@ -2,17 +2,28 @@
 
 import WidgetContainer from "./WidgetContainer";
 import { GraphWrapper } from "../Graph";
+import { useRouter } from "next/navigation";
 
 const WidgetGraph = ({
+  address,
   className = "",
   initialGraphData,
 }: {
+  address: string;
   className?: string;
   initialGraphData: any;
 }) => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/graph/${address}`);
+  };
+
   return (
-    <WidgetContainer className={`min-h-[500px] ${className}`}>
-      <GraphWrapper initialGraphData={initialGraphData} />
+    <WidgetContainer
+      onClick={handleClick}
+      className={`min-h-[500px] ${className}`}
+    >
+      <GraphWrapper address={address} initialGraphData={initialGraphData} />
     </WidgetContainer>
   );
 };

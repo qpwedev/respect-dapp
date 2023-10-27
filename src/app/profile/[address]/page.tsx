@@ -8,9 +8,13 @@ import WidgetGraph from "../../_components/widgets/WidgetGraph";
 import WidgetPersonalities from "../../_components/widgets/WidgetPersonalities";
 import Footer from "../../_components/Footer";
 
-export default async function Home({ params }: { params: { address: string } }) {
+export default async function Home({
+  params,
+}: {
+  params: { address: string };
+}) {
   const address = params.address;
-  
+
   const initialGraphData = await serverClient.getAttestations(address);
 
   return (
@@ -28,6 +32,7 @@ export default async function Home({ params }: { params: { address: string } }) 
         />
 
         <WidgetGraph
+          address={address}
           initialGraphData={initialGraphData}
           className="lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-3"
         />

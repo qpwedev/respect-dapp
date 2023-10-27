@@ -2,11 +2,13 @@ import React, { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface WidgetContainerProps {
+  onClick?: () => void;
   children: ReactNode;
   className?: string;
 }
 
 const WidgetContainer: React.FC<WidgetContainerProps> = ({
+  onClick,
   children,
   className = "",
 }) => {
@@ -15,7 +17,11 @@ const WidgetContainer: React.FC<WidgetContainerProps> = ({
     className,
   );
 
-  return <div className={defaultClasses}>{children}</div>;
+  return (
+    <div onClick={onClick} className={defaultClasses}>
+      {children}
+    </div>
+  );
 };
 
 export default WidgetContainer;
