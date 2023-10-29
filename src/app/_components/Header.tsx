@@ -22,7 +22,7 @@ const Header = ({ address }: { address: string }) => {
   }, [isMenuOpen]);
 
   return (
-    <div className="flex z-51 items-center justify-between bg-transparent backdrop-blur rounded-[22px] border-[1px] border-spink px-[2rem] py-[1rem]">
+    <div className="flex z-[51] items-center justify-between bg-transparent backdrop-blur rounded-[22px] border-[1px] border-spink px-[2rem] py-[1rem]">
       <Logo />
 
       <div className="hidden lg:block lg:flex lg:gap-10">
@@ -39,12 +39,12 @@ const Header = ({ address }: { address: string }) => {
 
       {/* Fullscreen menu that shows when burger is clicked */}
       {isMenuOpen && (
-        <div className="fixed left-0 top-0 z-50 flex h-screen w-screen flex-col justify-between bg-black p-5">
+        <div className="absolute left-[-20px] top-[-20px] z-[54] flex h-screen w-screen flex-col justify-between bg-black p-5">
           <Navigation
             address={address}
             className="ml-[2.5rem] mt-[1.4rem] flex-col text-3xl"
           />
-          <Web3ModalConnectButton className="mb-20 py-5 text-3xl" />
+          <Web3ModalConnectButton className="mb-20 ml-5 min-w-[200px] py-5 text-3xl" />
         </div>
       )}
     </div>

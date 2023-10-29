@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { trpc } from "../_trpc/client";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const GraphWrapper = ({
   address,
@@ -413,7 +414,7 @@ const NodeModal = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [modalSize, setModalSize] = useState<[number, number]>([0, 0]);
-  const modalTop = (modalSize[1] - 250) / 2;
+  const modalTop = (modalSize[1] - 750) / 2;
   const modalLeft = (modalSize[0] - 450) / 2;
 
   useEffect(() => {
@@ -437,8 +438,11 @@ const NodeModal = ({
         left: `${modalLeft}px`,
         top: `${modalTop}px`,
       }}
-      drag
-      dragConstraints={containerRef}
+      // drag
+      // dragConstraints={containerRef}
+      // dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+      // dragElastic={0.5}
+      // whileTap={{ cursor: "grabbing" }}
     >
       <ENSAndAddress ens={node?.data.ens} address={node?.id} />
 
@@ -462,8 +466,10 @@ const NodeModal = ({
 };
 
 const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
-  const handleAddressCopy = (e: any) => {
-    navigator.clipboard.writeText(address);
+  const router = useRouter();
+
+  const handleAddressClick = (e: any) => {
+    router.push(`/graph/${address}`);
   };
 
   const handleENSCopy = () => {
@@ -474,8 +480,8 @@ const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
     <div className="flex flex-col gap-1">
       {!ens ? (
         <div
-          className="w-full text-4xl font-bold text-[#000]"
-          onClick={handleAddressCopy}
+          className="w-full text-4xl font-bold text-[#000] cursor-pointer"
+          onClick={handleAddressClick}
         >
           {trimText(address, 10)}
         </div>
@@ -488,8 +494,8 @@ const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
             {ens}
           </div>
           <div
-            className="text-l w-full font-normal text-[#818181]"
-            onClick={handleAddressCopy}
+            className="text-l w-full font-normal text-[#818181] cursor-pointer"
+            onClick={handleAddressClick}
           >
             {address}
           </div>

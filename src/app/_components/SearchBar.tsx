@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { matchEthAddress } from "../utils";
 import { useRouter } from "next/navigation";
 import AntDesignSearchOutlined from "../_assets/Search";
+import clsx from "clsx";
 
 const sidebar = {
   open: {
@@ -74,7 +75,7 @@ const SearchBar = () => {
 
   return (
     <motion.form
-      className="absolute bottom-5 left-5 w-[35px] h-[35px] bg-white z-50 rounded-full flex justify-center items-center"
+      className="absolute top-[150px] left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[35px] h-[35px] bg-white z-50 rounded-full flex justify-center items-center"
       initial={false}
       onSubmit={handleSubmit}
       animate={isOpened ? "open" : "closed"}
@@ -125,7 +126,7 @@ const SearchButton = ({
 
   return (
     <button
-      className="z-50 p-2 rounded-full"
+      className="z-50 p-2 rounded-full hover:bg-[#FDF5FF]"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onClick={handleClick}

@@ -3,6 +3,7 @@
 import WidgetContainer from "./WidgetContainer";
 import { GraphWrapper } from "../Graph";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const WidgetGraph = ({
   address,
@@ -17,6 +18,7 @@ const WidgetGraph = ({
   const handleClick = () => {
     router.push(`/graph/${address}`);
   };
+
 
   return (
     <WidgetContainer

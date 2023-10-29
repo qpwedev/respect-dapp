@@ -40,7 +40,7 @@ export default async function Home({
         <WidgetPersonalities className="lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3" />
       </div>
 
-      <Footer />
+      <Footer address={address} />
       <ToastContainer
         position="top-right"
         autoClose={5000}

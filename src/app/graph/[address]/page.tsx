@@ -1,4 +1,3 @@
-import Loading from "@/app/loading";
 import { GraphWrapper } from "../../_components/Graph";
 import Header from "../../_components/Header";
 import SearchBar from "../../_components/SearchBar";
@@ -16,7 +15,7 @@ export default async function GraphPage({
       <div className="absolute w-full z-50 p-5">
         <Header address={params.address} />
       </div>
-      <div className="h-full">
+      <div className="h-screen">
         <SearchBar />
         <GraphWrapper
           address={params.address}

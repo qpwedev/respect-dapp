@@ -47,7 +47,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ title, text, url }) => {
           width={20}
           height={20}
           alt="share-arrow"
-          src={"share-arrow.svg"}
+          src={"/share-arrow.svg"}
           className="mb-[-2px]"
         />
       </motion.button>
