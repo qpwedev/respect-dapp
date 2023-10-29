@@ -1,3 +1,4 @@
+import Loading from "@/app/loading";
 import { GraphWrapper } from "../../_components/Graph";
 import Header from "../../_components/Header";
 import SearchBar from "../../_components/SearchBar";
