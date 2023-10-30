@@ -5,6 +5,7 @@ import * as d3 from "d3";
 import { trpc } from "../_trpc/client";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 const GraphWrapper = ({
   address,
@@ -412,10 +413,15 @@ const NodeModal = ({
   node: any;
   containerRef: any;
 }) => {
+  const windowDimensions = useWindowDimensions();
   const ref = useRef<HTMLDivElement>(null);
   const [modalSize, setModalSize] = useState<[number, number]>([0, 0]);
-  const modalTop = (modalSize[1] - 750) / 2;
-  const modalLeft = (modalSize[0] - 450) / 2;
+  const modalWidth =
+    windowDimensions.width < 450 ? windowDimensions.width : 450;
+  const modalHeight =
+    windowDimensions.height < 250 ? windowDimensions.height : 250;
+  const modalTop = (modalSize[1] - modalHeight) / 3.5;
+  const modalLeft = (modalSize[0] - modalWidth) / 2;
 
   useEffect(() => {
     const width = ref.current?.parentElement!.clientWidth || 0;
@@ -433,16 +439,13 @@ const NodeModal = ({
     <motion.div
       ref={ref}
       id="myModal"
-      className={`absolute text-[#000] flex-col gap-4 hidden min-h-[250px] min-w-[450px] rounded-3xl border-[1px] border-[#B388EB] bg-[#FFF] p-5`}
+      className={`absolute text-[#000] flex-col gap-4 hidden rounded-3xl border-[1px] border-[#B388EB] bg-[#FFF] p-5`}
       style={{
+        width: `${modalWidth}px`,
+        height: `${modalHeight}px`,
         left: `${modalLeft}px`,
         top: `${modalTop}px`,
       }}
-      // drag
-      // dragConstraints={containerRef}
-      // dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-      // dragElastic={0.5}
-      // whileTap={{ cursor: "grabbing" }}
     >
       <ENSAndAddress ens={node?.data.ens} address={node?.id} />
 

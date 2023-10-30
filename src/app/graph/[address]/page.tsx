@@ -11,7 +11,7 @@ export default async function GraphPage({
   const initialGraphData = await serverClient.getAttestations(params.address);
 
   return (
-    <main className="lg:h-screen flex flex-col">
+    <main className="lg:h-screen overflow-hidden flex flex-col">
       <div className="absolute w-full z-50 p-5">
         <Header address={params.address} />
       </div>

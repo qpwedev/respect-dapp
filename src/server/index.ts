@@ -6,7 +6,7 @@ import { z } from "zod";
 import { todos } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { exploreAllAttestations } from "./graphql/requests";
-import { matchEthAddress } from "@/app/utils";
+import { matchEthAddress } from "@/app/_utils/matchEthAddress";
 
 const sqlite = new Database("sqlite.db");
 const db = drizzle(sqlite);

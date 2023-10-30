@@ -2,29 +2,10 @@
 
 import { motion, useAnimation } from "framer-motion";
 import { useRef, useState } from "react";
-import { matchEthAddress } from "../utils";
 import { useRouter } from "next/navigation";
 import AntDesignSearchOutlined from "../_assets/Search";
-import clsx from "clsx";
-
-const sidebar = {
-  open: {
-    width: "480px",
-    transition: {
-      type: "spring",
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-  closed: {
-    width: "35px",
-    transition: {
-      type: "spring",
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
+import { matchEthAddress } from "../_utils/matchEthAddress";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 const SearchBar = () => {
   const [isOpened, setIsOpened] = useState(false);
@@ -32,6 +13,29 @@ const SearchBar = () => {
   const [invalidInput, setInvalidInput] = useState(false);
   const router = useRouter();
   const controls = useAnimation();
+  const windowDimensions = useWindowDimensions();
+
+  const sidebar = {
+    open: {
+      width:
+        windowDimensions.width > 480
+          ? "480px"
+          : `${windowDimensions.width - 10}px`,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40,
+      },
+    },
+    closed: {
+      width: "35px",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40,
+      },
+    },
+  };
 
   const handleSearchInputChange = (e: any) => {
     setInvalidInput(false);

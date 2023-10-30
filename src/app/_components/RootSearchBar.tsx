@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { matchEthAddress } from "../utils";
 import { motion, useAnimation } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { matchEthAddress } from "../_utils/matchEthAddress";
 
 const RootSearchBar = () => {
   return (
