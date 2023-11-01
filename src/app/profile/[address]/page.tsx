@@ -17,18 +17,20 @@ export default async function Home({
 
   const initialGraphData = await serverClient.getAttestations(address);
 
+  const iniitalUserLinks = await serverClient.getAddressLinks(address);
+
+  console.log(address);
+  console.log(iniitalUserLinks);
+
   return (
     <main className="flex flex-col p-5 lg:h-screen">
       <Header address={address} />
-      <div className="mt-[36px] flex flex-col gap-5 lg:grid lg:flex-1 lg:grid-cols-2 lg:grid-rows-2">
+      <div className="mt-[36px] flex flex-col gap-5 lg:grid lg:flex-1 lg:grid-cols-2 lg:grid-rows-[1fr,2fr]">
         <WidgetAccount
-          userLinks={{
-            farcaster: "qpwedev",
-            github: "qpwedev",
-          }}
+          initialUserLinks={iniitalUserLinks}
           address={address}
           handle={generateName()}
-          className="lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2"
+          className="h-full lg:col-start-1 lg:col-end-2 lg:row-start-1"
         />
 
         <WidgetGraph
@@ -37,7 +39,7 @@ export default async function Home({
           className="lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-3"
         />
 
-        <WidgetPersonalities className="lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3" />
+        <WidgetPersonalities className="h-full lg:col-start-1 lg:col-end-2 lg:row-start-2" />
       </div>
 
       <Footer address={address} />

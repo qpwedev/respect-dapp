@@ -13,7 +13,10 @@ export default function Web3ModalConnectButton({
 }) {
   const { open } = useWeb3Modal();
   const { open: isModalOpened } = useWeb3ModalState();
-  const { address, isConnecting } = useAccount();
+  const { address, isConnecting, connector } = useAccount();
+
+  console.log(connector);
+
   const [hoveredColor, setHoveredColor] = useState<string>("#FFF");
 
   const btnRef = useRef<HTMLButtonElement | null>(null);
@@ -30,7 +33,7 @@ export default function Web3ModalConnectButton({
   return (
     <button
       ref={btnRef}
-      className={`border-white-400 focus:bg-transparent focus:text-[#818181] focus:border-[#818181] select-none w-[140px] flex items-center justify-between gap-2 rounded-[13px] border-[1px] px-2 py-1 ${className} hover:bg-[#FDC5F5] hover:border-[#FDC5F5] hover:text-[#121212]`}
+      className={`border-white-400 flex w-[140px] select-none items-center justify-between gap-2 rounded-[13px] border-[1px] px-2 py-1 focus:border-[#818181] focus:bg-transparent focus:text-[#818181] ${className} hover:border-[#FDC5F5] hover:bg-[#FDC5F5] hover:text-[#121212]`}
       onClick={handleClick}
       onMouseEnter={() => setHoveredColor("#121212")}
       onMouseLeave={() => setHoveredColor("#FFF")}

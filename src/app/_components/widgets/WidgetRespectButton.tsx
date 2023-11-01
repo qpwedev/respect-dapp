@@ -101,7 +101,7 @@ export const WidgetRespectButton: React.FC<WidgetRespectButtonProps> = (
     >
       <WidgetContainer
         className={twMerge(
-          "cursor-pointer border-spink p-3 text-[24px] font-light hover:bg-spink hover:text-black transition",
+          "cursor-pointer border-spink p-3 text-[24px] font-light transition hover:bg-spink hover:text-black",
           isLoading ? "animate-pulse" : "",
           isSuccess
             ? "hover:-translate-y-[0px] hover:bg-black hover:text-white "

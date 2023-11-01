@@ -7,20 +7,27 @@ import { useAccount } from "wagmi";
 import WidgetLinks from "./WidgetLinks";
 import ShareButton from "../ShareButton";
 import { WidgetRespectButton } from "./WidgetRespectButton";
+import { trpc } from "@/app/_trpc/client";
 
 const WidgetAccount = ({
   handle,
   address,
-  userLinks,
+  initialUserLinks,
   className = "",
 }: {
   handle: string;
   address: string;
-  userLinks: any;
+  initialUserLinks: any;
   className?: string;
 }) => {
   const { address: currentUserAddress } = useAccount();
   const myself = currentUserAddress?.toLowerCase() === address.toLowerCase();
+  const linkData = trpc.getAddressLinks.useQuery(address, {
+    initialData: initialUserLinks,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
+
   return (
     <div className={`flex flex-col gap-5 ${className}`}>
       <WidgetContainer className="min-h-[200px] flex-1 !justify-around !border-spink bg-spink p-5 text-black">
@@ -37,7 +44,7 @@ const WidgetAccount = ({
           <div className="self-start font-light">{address}</div>
         </div>
 
-        <WidgetLinks userLinks={userLinks} myself />
+        <WidgetLinks userLinks={linkData.data} myself={myself} />
       </WidgetContainer>
 
       {!myself && <WidgetRespectButton subject={address} />}

@@ -25,7 +25,7 @@ const WidgetPersonalities = ({ className = "" }: { className?: string }) => {
     <div
       onClick={toggleContent}
       style={{ minHeight, height: minHeight }}
-      className={`transition-all duration-700 ease-in-out ${className}`}
+      className={`h-full transition-all duration-700 ease-in-out ${className}`}
       ref={containerRef}
     >
       <WidgetContainer className="relative h-full gap-2 overflow-hidden p-4">

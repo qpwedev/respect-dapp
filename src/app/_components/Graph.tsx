@@ -10,11 +10,11 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 const GraphWrapper = ({
   address,
   isMock = false,
-  initialGraphData,
+  graphData,
 }: {
   address?: string;
   isMock?: boolean;
-  initialGraphData?: any;
+  graphData?: any;
 }) => {
   let data = {
     data: {
@@ -112,7 +112,7 @@ const GraphWrapper = ({
     };
   } else if (address) {
     data = trpc.getAttestations.useQuery(address, {
-      initialData: initialGraphData,
+      initialData: graphData,
       refetchOnMount: false,
       refetchOnReconnect: false,
     });
@@ -132,7 +132,7 @@ const GraphWrapper = ({
 
 const GraphPlaceholder = () => {
   return (
-    <div className="flex flex-col justify-center items-center h-full text-4xl text-center">
+    <div className="flex h-full flex-col items-center justify-center text-center text-4xl">
       <p>Found no respects</p>
       <br />
       <p>Try searching for another address</p>
@@ -439,7 +439,7 @@ const NodeModal = ({
     <motion.div
       ref={ref}
       id="myModal"
-      className={`absolute text-[#000] flex-col gap-4 hidden rounded-3xl border-[1px] border-[#B388EB] bg-[#FFF] p-5`}
+      className={`absolute hidden flex-col gap-4 rounded-3xl border-[1px] border-[#B388EB] bg-[#FFF] p-5 text-[#000]`}
       style={{
         width: `${modalWidth}px`,
         height: `${modalHeight}px`,
@@ -472,7 +472,7 @@ const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
   const router = useRouter();
 
   const handleAddressClick = (e: any) => {
-    router.push(`/graph/${address}`);
+    router.push(`/profile/${address}`);
   };
 
   const handleENSCopy = () => {
@@ -483,7 +483,7 @@ const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
     <div className="flex flex-col gap-1">
       {!ens ? (
         <div
-          className="w-full text-4xl font-bold text-[#000] cursor-pointer"
+          className="w-full cursor-pointer text-4xl font-bold text-[#000]"
           onClick={handleAddressClick}
         >
           {trimText(address, 10)}
@@ -497,7 +497,7 @@ const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
             {ens}
           </div>
           <div
-            className="text-l w-full font-normal text-[#818181] cursor-pointer"
+            className="text-l w-full cursor-pointer font-normal text-[#818181]"
             onClick={handleAddressClick}
           >
             {address}

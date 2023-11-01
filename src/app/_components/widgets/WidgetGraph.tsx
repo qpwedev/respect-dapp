@@ -4,6 +4,7 @@ import WidgetContainer from "./WidgetContainer";
 import { GraphWrapper } from "../Graph";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { trpc } from "@/app/_trpc/client";
 
 const WidgetGraph = ({
   address,
@@ -14,18 +15,23 @@ const WidgetGraph = ({
   className?: string;
   initialGraphData: any;
 }) => {
-  const router = useRouter();
-  const handleClick = () => {
-    router.push(`/graph/${address}`);
-  };
+  // const router = useRouter();
+  // const handleClick = () => {
+  //   router.push(`/graph/${address}`);
+  // };
 
+  const graphData = trpc.getAttestations.useQuery(address, {
+    initialData: initialGraphData,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
 
   return (
     <WidgetContainer
-      onClick={handleClick}
+      // onClick={handleClick}
       className={`min-h-[500px] ${className}`}
     >
-      <GraphWrapper address={address} initialGraphData={initialGraphData} />
+      <GraphWrapper address={address} graphData={graphData.data} />
     </WidgetContainer>
   );
 };

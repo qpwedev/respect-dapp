@@ -1,6 +1,13 @@
+import { encodeAttestation } from "@/app/_utils/encodeAttestationPayload";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 
 // Custom hook to detect clicks outside of the provided ref
 function useOutsideClickDetector(ref, onOutsideClick) {
@@ -40,8 +47,76 @@ const LinkButton = ({
   const [isEditing, setIsEditing] = useState(false);
   const [handle, setHandle] = useState(linkHandle || "");
   const wrapperRef = useRef(null);
+  const { address } = useAccount();
 
   const inputRef = useRef(null);
+
+  const {
+    config,
+    error: prepareError,
+    isError: isPrepareError,
+  } = usePrepareContractWrite({
+    chainId: 59140,
+    address: "0x156f783Dc61167939EAd6F711c6A6c030F2f718e",
+    abi: [
+      {
+        inputs: [
+          {
+            components: [
+              {
+                internalType: "bytes32",
+                name: "schemaId",
+                type: "bytes32",
+              },
+              {
+                internalType: "uint64",
+                name: "expirationDate",
+                type: "uint64",
+              },
+              {
+                internalType: "bytes",
+                name: "subject",
+                type: "bytes",
+              },
+              {
+                internalType: "bytes",
+                name: "attestationData",
+                type: "bytes",
+              },
+            ],
+            internalType: "struct AttestationPayload",
+            name: "attestationPayload",
+            type: "tuple",
+          },
+          {
+            internalType: "bytes[]",
+            name: "validationPayload",
+            type: "bytes[]",
+          },
+        ],
+        name: "attest",
+        outputs: [],
+        stateMutability: "payable",
+        type: "function",
+      },
+    ],
+    functionName: "attest",
+    args: [
+      [
+        "0x8EE4D75D2724C3132D57FE2F6C32637C3B6A29353E3D5FD3123E1CCAEA255855",
+        7777777777,
+        address,
+        encodeAttestation(["string", "string"], [network, `${handle}`]),
+      ],
+      [],
+    ],
+  });
+
+  const { data, error, isError, write } = useContractWrite(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
 
   useEffect(() => {
     // If isEditing is true, focus on the input
@@ -91,12 +166,13 @@ const LinkButton = ({
   const sendHandleToServer = (handle) => {
     // Placeholder for a server request
     console.log(`Sending handle ${handle} to server...`);
+    write();
   };
 
   if (disabled) {
     return (
       <div
-        className="overflow-hidden rounded-[7px] border-[1.5px] border-[#818181] text-[#818181"
+        className="text-[#818181 overflow-hidden rounded-[7px] border-[1.5px] border-[#818181]"
         ref={wrapperRef}
         style={{ display: "inline-block" }}
       >
@@ -139,6 +215,7 @@ const LinkButton = ({
           className={twMerge(
             "flex h-[30px] w-[150px] items-center justify-center p-2",
             handle ? "cursor-pointer" : "cursor-default",
+            isLoading ? "animate-pulse" : "",
           )}
         >
           <Image src={img} alt={network} width={20} height={20} />
@@ -201,6 +278,9 @@ const WidgetLinks = ({
   userLinks: any;
   myself: boolean;
 }) => {
+
+  
+
   return (
     <div className="flex w-full flex-wrap gap-4">
       {Links.map((linkData, index) => {
@@ -209,6 +289,8 @@ const WidgetLinks = ({
         if (userLinks[linkData.network]) {
           linkData.handle = userLinks[linkData.network];
         }
+
+        console.log(myself, linkData.handle);
 
         if (!myself && !linkData.handle) {
           disabled = true;
