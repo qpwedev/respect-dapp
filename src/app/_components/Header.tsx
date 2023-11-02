@@ -37,14 +37,13 @@ const Header = ({ address }: { address: string }) => {
         />
       </div>
 
-      {/* Fullscreen menu that shows when burger is clicked */}
       {isMenuOpen && (
         <div className="absolute left-[-20px] top-[-20px] z-[54] flex h-screen w-screen flex-col justify-between bg-black p-5">
           <Navigation
             address={address}
-            className="ml-[2.5rem] mt-[1.4rem] flex-col text-3xl"
+            className="ml-[2rem] mt-[1.2rem] flex-col text-3xl items-start gap-12"
           />
-          <Web3ModalConnectButton className="mb-20 ml-5 min-w-[200px] py-5 text-3xl" />
+          <Web3ModalConnectButton className="mb-16 pl-6 pr-6 w-full h-16 min-w-[200px] py-5 text-3xl" />
         </div>
       )}
     </div>

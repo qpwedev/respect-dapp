@@ -12,8 +12,8 @@ const getWindowDimensions = () => {
   }
 
   return {
-    width: 0,
-    height: 0,
+    width: 390,
+    height: 840,
   };
 };
 

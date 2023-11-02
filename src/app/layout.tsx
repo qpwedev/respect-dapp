@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={zilla_slab.className + " " + "bg-[#121212] text-white"}>
+      <body className={zilla_slab.className + " " + "bg-[#121212] text-white h-full"}>
         <Provider>
           <SearchProvider>
             <WagmiConfigWrapper>

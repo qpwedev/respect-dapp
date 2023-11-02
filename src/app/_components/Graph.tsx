@@ -391,7 +391,7 @@ const Graph = ({
         position: "relative",
       }}
     >
-      <NodeModal containerRef={containerRef} node={pickedNode} />
+      <NodeModal node={pickedNode} />
 
       <svg
         ref={ref}
@@ -406,22 +406,24 @@ const Graph = ({
   );
 };
 
-const NodeModal = ({
-  node,
-  containerRef,
-}: {
-  node: any;
-  containerRef: any;
-}) => {
+const NodeModal = ({ node }: { node: any }) => {
   const windowDimensions = useWindowDimensions();
   const ref = useRef<HTMLDivElement>(null);
   const [modalSize, setModalSize] = useState<[number, number]>([0, 0]);
   const modalWidth =
-    windowDimensions.width < 450 ? windowDimensions.width : 450;
+    windowDimensions.width < 640 ? windowDimensions.width : 450;
   const modalHeight =
     windowDimensions.height < 250 ? windowDimensions.height : 250;
-  const modalTop = (modalSize[1] - modalHeight) / 3.5;
-  const modalLeft = (modalSize[0] - modalWidth) / 2;
+
+  const modalTop =
+    windowDimensions.width < 640
+      ? windowDimensions.height - modalHeight
+      : (modalSize[1] - modalHeight) / 3.5;
+
+  const modalLeft =
+    windowDimensions.width < 640
+      ? (windowDimensions.width - modalWidth) / 2
+      : (modalSize[0] - modalWidth) / 2;
 
   useEffect(() => {
     const width = ref.current?.parentElement!.clientWidth || 0;
@@ -439,7 +441,7 @@ const NodeModal = ({
     <motion.div
       ref={ref}
       id="myModal"
-      className={`absolute hidden flex-col gap-4 rounded-3xl border-[1px] border-[#B388EB] bg-[#FFF] p-5 text-[#000]`}
+      className={`absolute md:text-[#000] text-[#fff] backdrop-blur-sm flex-col gap-4 hidden md:rounded-3xl rounded-tl-3xl rounded-tr-3xl md:border-[1px] md:border-[#B388EB] border-t border-t-[#B388EB] md:bg-[#FFF] bg-[#121212F0] p-5`}
       style={{
         width: `${modalWidth}px`,
         height: `${modalHeight}px`,
@@ -447,7 +449,11 @@ const NodeModal = ({
         top: `${modalTop}px`,
       }}
     >
-      <ENSAndAddress ens={node?.data.ens} address={node?.id} />
+      <ENSAndAddress
+        screenWidth={windowDimensions.width}
+        ens={node?.data.ens}
+        address={node?.id}
+      />
 
       <div className="h-[1px] w-full bg-[#B388EB]"></div>
 
@@ -468,7 +474,15 @@ const NodeModal = ({
   );
 };
 
-const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
+const ENSAndAddress = ({
+  ens,
+  address,
+  screenWidth,
+}: {
+  ens: string;
+  address: string;
+  screenWidth: number;
+}) => {
   const router = useRouter();
 
   const handleAddressClick = (e: any) => {
@@ -479,21 +493,27 @@ const ENSAndAddress = ({ ens, address }: { ens: string; address: string }) => {
     navigator.clipboard.writeText(ens);
   };
 
+  // TODO: better...
+  function textWidth(text: string, screenWidth: number) {
+    if (screenWidth < 768) {
+      return 8;
+    } else {
+      return 10;
+    }
+  }
+
   return (
     <div className="flex flex-col gap-1">
       {!ens ? (
         <div
-          className="w-full cursor-pointer text-4xl font-bold text-[#000]"
+          className="w-full cursor-pointer text-4xl font-bold md:text-[#000] text-[#fff]"
           onClick={handleAddressClick}
         >
-          {trimText(address, 10)}
+          {trimText(address, textWidth(address, screenWidth))}
         </div>
       ) : (
         <>
-          <div
-            className="w-full text-4xl font-bold text-[#000]"
-            onClick={handleENSCopy}
-          >
+          <div className="w-full text-4xl font-bold" onClick={handleENSCopy}>
             {ens}
           </div>
           <div

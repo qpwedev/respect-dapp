@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { matchEthAddress } from "../_utils/matchEthAddress";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 const RootSearchBar = () => {
   return (
@@ -18,6 +19,7 @@ const SearchBar = () => {
   const [invalidInput, setInvalidInput] = useState(false);
   const router = useRouter();
   const controls = useAnimation();
+  const windowDimensions = useWindowDimensions();
 
   const handleSearchInputChange = (e: any) => {
     setInvalidInput(false);
@@ -53,10 +55,16 @@ const SearchBar = () => {
     router.push(`/graph/${searchInput}`);
   };
 
+  const formWidth =
+    windowDimensions.width > 480 ? "480px" : `${windowDimensions.width - 40}px`;
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="absolute ml-auto mr-auto left-0 right-0 top-1/3 w-[480px] z-50 rounded-full flex justify-center items-center"
+      className="absolute ml-auto mr-auto left-0 right-0 top-1/3 z-50 rounded-full flex justify-center items-center"
+      style={{
+        width: formWidth,
+      }}
     >
       <motion.input
         initial={{ x: "0%", backgroundColor: "white" }}

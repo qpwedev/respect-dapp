@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import PickCircle from "../_assets/pick-circle.svg";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
+import Logo from "./Logo";
 
 type TabsType = "graph" | "profile";
 
@@ -35,6 +36,8 @@ const Navigation = ({
 
   return (
     <div className={`flex gap-5 ${className}`}>
+      <Logo noText className="lg:hidden" />
+
       <div
         className={`flex cursor-pointer items-center gap-2 ${
           isTabActive("profile") ? "font-zillah" : ""

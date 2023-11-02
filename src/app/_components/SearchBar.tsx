@@ -79,7 +79,7 @@ const SearchBar = () => {
 
   return (
     <motion.form
-      className="absolute top-[150px] left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[35px] h-[35px] bg-white z-50 rounded-full flex justify-center items-center"
+      className="absolute top-[150px] left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[35px] h-[35px] bg-white z-[49] rounded-full flex justify-center items-center"
       initial={false}
       onSubmit={handleSubmit}
       animate={isOpened ? "open" : "closed"}
@@ -122,7 +122,7 @@ const SearchButton = ({
     mouseUpTime = new Date().getTime();
   };
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     if (mouseUpTime - mouseDownTime < 200) {
       handleButtonClick();
     }
@@ -130,7 +130,7 @@ const SearchButton = ({
 
   return (
     <button
-      className="z-50 p-2 rounded-full hover:bg-[#FDF5FF]"
+      className="z-[49] p-2 rounded-full hover:bg-[#FDF5FF]"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onClick={handleClick}
