@@ -119,11 +119,10 @@ const GraphWrapper = ({
     });
   }
 
-  if (
-    data.data === null ||
-    data.data === undefined ||
-    data.data.nodes?.length === 0
-  ) {
+  if (data.data === null || data.data === undefined) {
+    return Promise.resolve(null);
+  }
+  if (data.data.nodes?.length === 0) {
     return <GraphPlaceholder />;
   }
 
