@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import { Zilla_Slab } from "next/font/google";
 import Provider from "./_trpc/Provider";
 import WagmiConfigWrapper from "./_components/web3modalbootstrap";
-import SearchProvider from "./contexts/SearchContext";
+import { ToastContainer, Slide } from "react-toastify";
+import "react-loading-skeleton/dist/skeleton.css";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const zilla_slab = Zilla_Slab({
   weight: ["500", "700", "300"],
@@ -24,12 +26,26 @@ export default function RootLayout({
     <html lang="en">
       <body className={zilla_slab.className + " " + "bg-[#121212] text-white h-full"}>
         <Provider>
-          <SearchProvider>
-            <WagmiConfigWrapper>
+          <WagmiConfigWrapper>
+            <SkeletonTheme baseColor="#202020" highlightColor="#444">
               {children}
-            </WagmiConfigWrapper>
-          </SearchProvider>
+            </SkeletonTheme>
+          </WagmiConfigWrapper>
         </Provider>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+          transition={Slide}
+          limit={1}
+        />
       </body>
     </html>
   );

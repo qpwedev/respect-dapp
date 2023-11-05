@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import WidgetContainer from "./WidgetContainer";
 import WidgetTitle from "./WidgetTitle";
 import { useAccount } from "wagmi";
@@ -8,6 +8,7 @@ import WidgetLinks from "./WidgetLinks";
 import ShareButton from "../ShareButton";
 import { WidgetRespectButton } from "./WidgetRespectButton";
 import { trpc } from "@/app/_trpc/client";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const WidgetAccount = ({
   handle,

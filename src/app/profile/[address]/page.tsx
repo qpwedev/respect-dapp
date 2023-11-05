@@ -1,4 +1,4 @@
-import { Slide, ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 import { serverClient } from "../../_trpc/serverClient";
 import Header from "../../_components/Header";
@@ -18,9 +18,6 @@ export default async function Home({
   const initialGraphData = await serverClient.getAttestations(address);
 
   const iniitalUserLinks = await serverClient.getAddressLinks(address);
-
-  console.log(address);
-  console.log(iniitalUserLinks);
 
   return (
     <main className="flex flex-col p-5 lg:h-screen">
@@ -43,20 +40,7 @@ export default async function Home({
       </div>
 
       <Footer address={address} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover={false}
-        theme="dark"
-        transition={Slide}
-        limit={1}
-      />
+      
     </main>
   );
 }

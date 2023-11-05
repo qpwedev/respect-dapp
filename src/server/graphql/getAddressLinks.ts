@@ -34,11 +34,6 @@ export const getAddressLinks = async (address: string) => {
     return acc;
   }, {});
 
-
-  console.log(result.data);
-  console.log(groupedAttestations);
-
-
   const finalObject = Object.keys(groupedAttestations).reduce((acc: any, key: any) => {
     acc[key] = groupedAttestations[key].decodedData[1];
     return acc;

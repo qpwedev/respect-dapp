@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 const FlipCard = ({ frontComponent, backComponent }: any) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // Variants for animation
   const variants = {
     front: {
       rotateY: 0,

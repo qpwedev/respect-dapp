@@ -15,8 +15,6 @@ export default function Web3ModalConnectButton({
   const { open: isModalOpened } = useWeb3ModalState();
   const { address, isConnecting, connector } = useAccount();
 
-  console.log(connector);
-
   const [hoveredColor, setHoveredColor] = useState<string>("#FFF");
 
   const btnRef = useRef<HTMLButtonElement | null>(null);

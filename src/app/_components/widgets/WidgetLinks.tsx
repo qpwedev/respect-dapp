@@ -1,6 +1,7 @@
 import { encodeAttestation } from "@/app/_utils/encodeAttestationPayload";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 import {
   useAccount,
@@ -164,9 +165,8 @@ const LinkButton = ({
   };
 
   const sendHandleToServer = (handle) => {
-    // Placeholder for a server request
-    console.log(`Sending handle ${handle} to server...`);
     write();
+    toast.success("Handle updated successfully!");
   };
 
   if (disabled) {
@@ -247,30 +247,6 @@ interface LinkData {
   handle?: string;
 }
 
-const Links: LinkData[] = [
-  {
-    network: "twitter",
-    defaultText: "add handle",
-    img: "/x.svg",
-    baseUrl: "https://twitter.com/",
-    disabledText: "No link yet",
-  },
-  {
-    network: "farcaster",
-    defaultText: "add handle",
-    img: "/farcaster.svg",
-    baseUrl: "https://farcaster.xyz/",
-    disabledText: "No link yet",
-  },
-  {
-    network: "github",
-    defaultText: "add handle",
-    img: "/github.svg",
-    baseUrl: "https://github.com/",
-    disabledText: "No link yet",
-  },
-];
-
 const WidgetLinks = ({
   userLinks,
   myself,
@@ -278,8 +254,29 @@ const WidgetLinks = ({
   userLinks: any;
   myself: boolean;
 }) => {
-
-  
+  const Links: LinkData[] = [
+    {
+      network: "twitter",
+      defaultText: "add handle",
+      img: "/x.svg",
+      baseUrl: "https://twitter.com/",
+      disabledText: "No link yet",
+    },
+    {
+      network: "farcaster",
+      defaultText: "add handle",
+      img: "/farcaster.svg",
+      baseUrl: "https://farcaster.xyz/",
+      disabledText: "No link yet",
+    },
+    {
+      network: "github",
+      defaultText: "add handle",
+      img: "/github.svg",
+      baseUrl: "https://github.com/",
+      disabledText: "No link yet",
+    },
+  ];
 
   return (
     <div className="flex w-full flex-wrap gap-4">
@@ -289,8 +286,6 @@ const WidgetLinks = ({
         if (userLinks[linkData.network]) {
           linkData.handle = userLinks[linkData.network];
         }
-
-        console.log(myself, linkData.handle);
 
         if (!myself && !linkData.handle) {
           disabled = true;

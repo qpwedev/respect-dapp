@@ -72,7 +72,7 @@ const SearchBar = () => {
       return;
     }
 
-    router.push(`/graph/${searchInput}`);
+    router.push(`/profile/${searchInput}`);
   };
 
   const containerRef = useRef(null);
@@ -90,7 +90,7 @@ const SearchBar = () => {
         <motion.input
           initial={{ x: "0%", backgroundColor: "white" }}
           animate={controls}
-          className={`w-full text-black outline-none h-[40px] min-w-full rounded-[22px] pl-5 pr-5 ${
+          className={`h-[40px] w-full min-w-full rounded-[22px] pl-5 pr-5 text-black outline-none ${
             !invalidInput && "bg-white"
           }`}
           placeholder="Address"

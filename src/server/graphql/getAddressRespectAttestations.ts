@@ -47,6 +47,7 @@ async function bfsTraversal(
     const result = await client.query({
       query: GET_ALL_ATTESTATIONS,
       variables: { address: currentNode.address, schemaId: schemaId },
+      fetchPolicy: 'network-only',
     });
 
     const allAttestations: Attestation[] = [
