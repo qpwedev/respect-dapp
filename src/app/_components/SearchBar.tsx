@@ -72,7 +72,7 @@ const SearchBar = () => {
       return;
     }
 
-    router.push(`/profile/${searchInput}`);
+    router.push(`/graph/${searchInput}`);
   };
 
   const containerRef = useRef(null);
