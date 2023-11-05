@@ -38,7 +38,7 @@ const Header = ({ address }: { address: string }) => {
       </div>
 
       {isMenuOpen && (
-        <div className="absolute left-[-20px] top-[-20px] z-[54] flex h-screen w-screen flex-col justify-between bg-black p-5">
+        <div className="absolute left-[0px] top-[0px] z-[54] flex h-screen w-screen flex-col justify-between bg-black p-5">
           <Navigation
             address={address}
             className="ml-[2rem] mt-[1.2rem] flex-col text-3xl items-start gap-12"
