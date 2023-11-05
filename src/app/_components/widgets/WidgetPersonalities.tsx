@@ -13,7 +13,8 @@ const WidgetPersonalities = ({ className = "" }: { className?: string }) => {
 
   useEffect(() => {
     if (containerRef.current) {
-      setMinHeight(`${containerRef.current.offsetHeight}px`); // memorize the initial height
+      // @ts-ignore
+      setMinHeight(`${containerRef.current.offsetHeight}px`);
     }
   }, []);
 

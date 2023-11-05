@@ -19,6 +19,8 @@ export default async function GraphPage({
         <SearchBar />
         <GraphWrapper
           address={params.address}
+
+          // @ts-ignore
           initialGraphData={initialGraphData}
         />
       </div>

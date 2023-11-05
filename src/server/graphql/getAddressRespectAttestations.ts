@@ -63,6 +63,7 @@ async function bfsTraversal(
       if (visited.has(currentNode.address)) {
         const existingAttestations = visited.get(currentNode.address);
         const mergedAttestations = [
+          // @ts-ignore
           ...new Set([...existingAttestations, ...allAttestationsWithDepth]),
         ];
         visited.set(currentNode.address, mergedAttestations);

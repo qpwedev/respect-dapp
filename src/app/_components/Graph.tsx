@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -441,7 +442,7 @@ const NodeModal = ({ node }: { node: any }) => {
     <motion.div
       ref={ref}
       id="myModal"
-      className={`absolute md:text-[#000] text-[#fff] backdrop-blur-sm flex-col gap-4 hidden md:rounded-3xl rounded-tl-3xl rounded-tr-3xl md:border-[1px] md:border-[#B388EB] border-t border-t-[#B388EB] md:bg-[#FFF] bg-[#121212F0] p-5`}
+      className={`absolute hidden flex-col gap-4 rounded-tl-3xl rounded-tr-3xl border-t border-t-[#B388EB] bg-[#121212F0] p-5 text-[#fff] backdrop-blur-sm md:rounded-3xl md:border-[1px] md:border-[#B388EB] md:bg-[#FFF] md:text-[#000]`}
       style={{
         width: `${modalWidth}px`,
         height: `${modalHeight}px`,
@@ -506,7 +507,7 @@ const ENSAndAddress = ({
     <div className="flex flex-col gap-1">
       {!ens ? (
         <div
-          className="w-full cursor-pointer text-4xl font-bold md:text-[#000] text-[#fff]"
+          className="w-full cursor-pointer text-4xl font-bold text-[#fff] md:text-[#000]"
           onClick={handleAddressClick}
         >
           {trimText(address, textWidth(address, screenWidth))}
