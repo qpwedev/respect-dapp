@@ -268,7 +268,7 @@ const WidgetLinks = ({
       network: "farcaster",
       defaultText: "add handle",
       img: "/farcaster.svg",
-      baseUrl: "https://farcaster.xyz/",
+      baseUrl: "https://warpcast.com/",
       disabledText: "No link yet",
     },
     {
