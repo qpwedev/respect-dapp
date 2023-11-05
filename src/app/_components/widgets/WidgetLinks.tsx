@@ -168,8 +168,13 @@ const LinkButton = ({
 
   const sendHandleToServer = (handle) => {
     write();
-    toast.success("Handle updated successfully!");
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Handle updated successfully!");
+    }
+  }, [isSuccess]);
 
   if (disabled) {
     return (

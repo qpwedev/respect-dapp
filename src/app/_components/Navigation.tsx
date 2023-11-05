@@ -5,6 +5,7 @@ import PickCircle from "../_assets/pick-circle.svg";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import Logo from "./Logo";
+import { useAccount } from "wagmi";
 
 type TabsType = "graph" | "profile";
 
@@ -18,17 +19,20 @@ const Navigation = ({
   const router = useRouter();
   const pathname = usePathname();
   const currentRoute = pathname.split("/")[1];
-  const currentPage = currentRoute === "graph" ? "graph" : "profile";
+  const currentPage =
+    currentRoute === "graph" || currentRoute === "" ? "graph" : "profile";
   const [activeTab, setActiveTab] = useState<TabsType>(currentPage as TabsType);
+
+  const { address: accountAddress } = useAccount();
 
   const handleTabChange = (newTab: TabsType) => {
     setActiveTab(newTab);
     if (newTab === "graph") {
-      router.push(`/graph/${address}`);
+      router.push(`/`);
     }
 
     if (newTab === "profile") {
-      router.push(`/profile/${address}`);
+      router.push(`/profile/${accountAddress || address}`);
     }
   };
 
@@ -45,11 +49,11 @@ const Navigation = ({
         onClick={() => handleTabChange("profile")}
       >
         <Image alt="pick-circle" src={PickCircle} />
-        Profile
+        {accountAddress ? "Myself" : "Profile"}
       </div>
 
       <div
-        className={`flex items-center gap-2 cursor-pointer ${
+        className={`flex cursor-pointer items-center gap-2 ${
           isTabActive("graph") ? "font-zillah" : ""
         }`}
         onClick={() => handleTabChange("graph")}

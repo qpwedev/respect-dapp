@@ -13,7 +13,7 @@ const zilla_slab = Zilla_Slab({
 });
 
 export const metadata: Metadata = {
-  title: "Respect",
+  title: "Respect - web3 trust graph",
   description:
     "Respect is a DApp implementing an innovational approach to the respect-as-an-asset attestations that allow for the on-chain onboarding referral campaigns development.",
 };
